@@ -2,9 +2,11 @@ package com.yuzu.githubprofile.model.data
 
 
 import android.os.Parcelable
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
+@Entity
 @Parcelize
 data class UserDetail(
     @SerializedName("login")
