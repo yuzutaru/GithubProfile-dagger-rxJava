@@ -1,8 +1,9 @@
 package com.yuzu.githubprofile.model.data
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserDetail(
@@ -53,9 +54,9 @@ data class UserDetail(
     @SerializedName("email")
     var email: String?,
     @SerializedName("hireable")
-    var hireable: Any?,
+    var hireable: Boolean?,
     @SerializedName("bio")
-    var bio: Any?,
+    var bio: String?,
     @SerializedName("twitter_username")
     var twitterUsername: String?,
     @SerializedName("public_repos")
@@ -70,4 +71,4 @@ data class UserDetail(
     var createdAt: String?,
     @SerializedName("updated_at")
     var updatedAt: String?
-)
+): Parcelable

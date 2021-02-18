@@ -1,7 +1,8 @@
 package com.yuzu.githubprofile.model.data
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserData(
@@ -41,4 +42,4 @@ data class UserData(
     var type: String?,
     @SerializedName("site_admin")
     var siteAdmin: Boolean?
-)
+): Parcelable
