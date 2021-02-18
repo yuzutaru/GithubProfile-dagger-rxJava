@@ -17,10 +17,10 @@ interface UserDAO {
     fun getUser(): Single<UserData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(loginData: UserData)
+    fun insert(userData: UserData)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(loginDataList: List<UserData>)
+    fun insert(userDataList: List<UserData>)
 
     @Query("DELETE FROM UserData")
     fun deleteAllLogin()
