@@ -2,7 +2,7 @@ package com.yuzu.githubprofile.injection.module
 
 import android.annotation.SuppressLint
 import android.app.Application
-import com.yuzu.githubprofile.injection.utils.TIMEOUT_HTTP
+import com.yuzu.githubprofile.utils.TIMEOUT_HTTP
 import dagger.Module
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
