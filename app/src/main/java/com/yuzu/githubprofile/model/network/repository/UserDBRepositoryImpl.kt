@@ -9,7 +9,7 @@ import java.util.concurrent.Executor
  * Created by Yustar Pramudana on 18/02/2021
  */
 
-class ProfileDBRepositoryImpl(private val dao: UserDAO, private val exec: Executor): ProfileDBRepository {
+class UserDBRepositoryImpl(private val dao: UserDAO, private val exec: Executor): UserDBRepository {
     override fun getAllUsers(): Single<List<UserData>> {
         return dao.getAllUsers()
     }
