@@ -1,49 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:ignore="MissingDefaultResource">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewmodel"
+            type="com.yuzu.githubprofile.viewmodel.UserViewModel" />
+    </data>
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <RelativeLayout
+            <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/input_search_width"
-                android:gravity="center_vertical"
-                android:layout_marginHorizontal="20dp">
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white">
 
-                <EditText
-                    android:id="@+id/search"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/search_hint"
-                    android:singleLine="true"
-                    android:textColorHint="@color/md_white_100"
-                    android:inputType="text"
-                    android:imeOptions="actionUnspecified"
-                    style="@style/EditTextCustom"
-                    android:paddingHorizontal="54dp"
-                    android:layout_centerVertical="true"
-                    android:importantForAutofill="no" />
+                    android:layout_height="@dimen/input_search_width"
+                    android:gravity="center_vertical"
+                    android:layout_marginHorizontal="20dp">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_search_left"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:contentDescription="@string/search_icon" />
-            </RelativeLayout>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <EditText
+                        android:id="@+id/search"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/search_hint"
+                        android:singleLine="true"
+                        android:textColorHint="@color/md_white_100"
+                        android:inputType="text"
+                        android:imeOptions="actionUnspecified"
+                        style="@style/EditTextCustom"
+                        android:paddingHorizontal="54dp"
+                        android:layout_centerVertical="true"
+                        android:importantForAutofill="no" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_search_left"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
+                        android:contentDescription="@string/search_icon" />
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,4 +1,4 @@
-package com.yuzu.githubprofile.view
+package com.yuzu.githubprofile.view.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
