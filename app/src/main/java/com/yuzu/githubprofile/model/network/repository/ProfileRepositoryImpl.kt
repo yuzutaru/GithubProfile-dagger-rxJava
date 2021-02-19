@@ -1,6 +1,6 @@
 package com.yuzu.githubprofile.model.network.repository
 
-import android.service.autofill.UserData
+import com.yuzu.githubprofile.model.data.UserData
 import com.yuzu.githubprofile.model.data.UserDetail
 import com.yuzu.githubprofile.model.network.api.ProfileApi
 import io.reactivex.Single

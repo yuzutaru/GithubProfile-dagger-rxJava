@@ -1,6 +1,6 @@
 package com.yuzu.githubprofile.model.network.api
 
-import android.service.autofill.UserData
+import com.yuzu.githubprofile.model.data.UserData
 import com.yuzu.githubprofile.model.data.UserDetail
 import io.reactivex.Single
 import retrofit2.http.*
