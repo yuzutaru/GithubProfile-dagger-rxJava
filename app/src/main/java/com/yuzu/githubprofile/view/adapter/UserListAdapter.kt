@@ -23,7 +23,7 @@ class UserListAdapter(private val viewModel: UserViewModel?, private val context
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.item_user_list, parent, false)
 
-        return UserListViewHolder(view)
+        return UserListViewHolder(viewModel, view)
     }
 
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
