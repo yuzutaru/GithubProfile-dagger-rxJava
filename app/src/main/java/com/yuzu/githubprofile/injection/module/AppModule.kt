@@ -4,8 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.room.Room
 import com.yuzu.githubprofile.model.network.api.ProfileApi
+import com.yuzu.githubprofile.model.network.local.UserDAO
+import com.yuzu.githubprofile.model.network.local.UserDB
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
 import com.yuzu.githubprofile.model.network.repository.ProfileRepositoryImpl
+import com.yuzu.githubprofile.model.network.repository.UserDBRepository
+import com.yuzu.githubprofile.model.network.repository.UserDBRepositoryImpl
 import com.yuzu.githubprofile.utils.BASE_URL
 import com.yuzu.githubprofile.utils.TIMEOUT_HTTP
 import dagger.Module
@@ -107,9 +111,9 @@ class AppModule(private val app: Application) {
     }
 
     //Profile ROOM DATA
-    /*@Provides
+    @Provides
     @Singleton
-    fun userDBRepository(dao: UserDAO, exec: Executor):UserDBRepository {
+    fun userDBRepository(dao: UserDAO, exec: Executor): UserDBRepository {
         return UserDBRepositoryImpl(dao, exec)
     }
 
@@ -122,8 +126,8 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     fun userDAO(db: UserDB): UserDAO {
-        return db.userDataDAO()
-    }*/
+        return db.userDAO()
+    }
 
 
     @Singleton
