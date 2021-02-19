@@ -7,4 +7,33 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="colorPrimary">@color/md_grey_100</color>
+    <color name="colorPrimaryDark">@color/md_grey_200</color>
+    <color name="colorAccent">@color/black</color>
+
+    <color name="md_white_100">#7E7E7E</color>
+    <color name="md_white_150">#898989</color>
+    <color name="md_white_200">#9B9999</color>
+    <color name="md_white_250">#9FA0C5</color>
+    <color name="md_white_300">#B7BCD6</color>
+    <color name="md_white_350">#BEBEBE</color>
+    <color name="md_white_400">#DBDBDB</color>
+    <color name="md_white_450">#e0e0e0</color>
+    <color name="md_white_500">#D8D8D8</color>
+    <color name="md_white_600">#D2D2D2</color>
+    <color name="md_white_950">#FAFAFA</color>
+    <color name="md_white_1000">#FFFFFF</color>
+
+    <color name="md_grey_100">#C5C5C5</color>
+    <color name="md_grey_125">#A2A2A2</color>
+    <color name="md_grey_150">#9A9A9A</color>
+    <color name="md_grey_200">#8E8E8E</color>
+    <color name="md_grey_300">#666666</color>
+    <color name="md_grey_350">#5D5D5D</color>
+    <color name="md_grey_400">#626262</color>
+    <color name="md_grey_500">#595959</color>
+    <color name="md_grey_600">#4F4F4F</color>
+    <color name="md_grey_800">#464B4A</color>
+    <color name="md_grey_850">#2C2C2C</color>
 </resources>
