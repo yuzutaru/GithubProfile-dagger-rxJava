@@ -1,7 +1,7 @@
 package com.yuzu.githubprofile.model.network.repository
 
 import com.yuzu.githubprofile.model.data.UserData
-import com.yuzu.githubprofile.model.data.UserDetail
+import com.yuzu.githubprofile.model.data.Profile
 import io.reactivex.Single
 
 /**
@@ -10,5 +10,5 @@ import io.reactivex.Single
 
 interface ProfileRepository {
     fun userList(since: String): Single<List<UserData>>
-    fun userDetail(username: String): Single<UserDetail>
+    fun userDetail(username: String): Single<Profile>
 }

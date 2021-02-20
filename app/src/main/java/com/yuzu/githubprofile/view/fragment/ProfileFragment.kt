@@ -10,26 +10,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.yuzu.githubprofile.R
-import com.yuzu.githubprofile.databinding.FragmentUserDetailBinding
+import com.yuzu.githubprofile.databinding.FragmentProfileBinding
 import com.yuzu.githubprofile.view.activity.MainActivity
-import com.yuzu.githubprofile.viewmodel.UserDetailViewModel
+import com.yuzu.githubprofile.viewmodel.ProfileViewModel
 
 /**
  * Created by Yustar Pramudana on 20/02/2021
  */
 
-class UserDetailFragment: Fragment() {
+class ProfileFragment: Fragment() {
     private val LOG_TAG = "UserDetail"
-    lateinit var binding: FragmentUserDetailBinding
-    private lateinit var viewModel: UserDetailViewModel
+    lateinit var binding: FragmentProfileBinding
+    private lateinit var viewModel: ProfileViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel = ViewModelProvider(this).get(UserDetailViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentUserDetailBinding.inflate(inflater, container, false).apply {
+        binding = FragmentProfileBinding.inflate(inflater, container, false).apply {
             viewmodel = viewModel
             lifecycleOwner = viewLifecycleOwner
         }

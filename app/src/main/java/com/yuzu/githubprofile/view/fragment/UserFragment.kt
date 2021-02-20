@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yuzu.githubprofile.R
@@ -63,7 +62,7 @@ class UserFragment: Fragment() {
     fun userDetail(login: String) {
         Log.e(LOG_TAG, "Login : $login")
         val bundle = bundleOf(ARGUMENT_LOGIN to login)
-        (activity as MainActivity).replaceFragment(R.id.main_content, UserDetailFragment(), bundle)
+        (activity as MainActivity).replaceFragment(R.id.main_content, ProfileFragment(), bundle)
     }
 
     private fun onBackPressed() {

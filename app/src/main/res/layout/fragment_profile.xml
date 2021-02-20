@@ -6,7 +6,7 @@
         <import type="android.view.View" />
         <variable
             name="viewmodel"
-            type="com.yuzu.githubprofile.viewmodel.UserDetailViewModel" />
+            type="com.yuzu.githubprofile.viewmodel.ProfileViewModel" />
     </data>
 
     <ScrollView
@@ -52,7 +52,7 @@
             </androidx.appcompat.widget.Toolbar>
 
             <include
-                layout="@layout/skeleton_user_detail"
+                layout="@layout/skeleton_profile"
                 android:visibility="@{safeUnbox(viewmodel.loading) ? View.VISIBLE : View.GONE}"/>
 
             <androidx.cardview.widget.CardView

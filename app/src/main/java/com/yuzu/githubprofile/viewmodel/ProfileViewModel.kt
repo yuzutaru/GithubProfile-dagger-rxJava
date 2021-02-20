@@ -13,10 +13,10 @@ import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.model.NoNetworkException
 import com.yuzu.githubprofile.model.Response
 import com.yuzu.githubprofile.model.Status
-import com.yuzu.githubprofile.model.data.UserDetail
+import com.yuzu.githubprofile.model.data.Profile
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
 import com.yuzu.githubprofile.utils.ARGUMENT_LOGIN
-import com.yuzu.githubprofile.view.fragment.UserDetailFragment
+import com.yuzu.githubprofile.view.fragment.ProfileFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -25,17 +25,17 @@ import io.reactivex.schedulers.Schedulers
  * Created by Yustar Pramudana on 20/02/2021
  */
 
-class UserDetailViewModel(app: Application): AndroidViewModel(app) {
+class ProfileViewModel(app: Application): AndroidViewModel(app) {
     private val LOG_TAG = "UserDetail"
     var loading: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private val compositeDisposable = CompositeDisposable()
     private val profileRepository: ProfileRepository
 
-    private val user = MutableLiveData<Response<UserDetail>>()
-    fun userDataLive(): LiveData<Response<UserDetail>> = user
+    private val user = MutableLiveData<Response<Profile>>()
+    fun userDataLive(): LiveData<Response<Profile>> = user
 
-    var userDetail = MutableLiveData<UserDetail>()
+    var userDetail = MutableLiveData<Profile>()
 
     init {
         val appComponent = GithubProfileApplication.instance.getAppComponent()
@@ -79,7 +79,7 @@ class UserDetailViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
-    fun userDetail(fragment: UserDetailFragment, response: Response<UserDetail>) {
+    fun userDetail(fragment: ProfileFragment, response: Response<Profile>) {
         try {
             Log.d(LOG_TAG, "DATA STATUS = ${response.status}")
 
