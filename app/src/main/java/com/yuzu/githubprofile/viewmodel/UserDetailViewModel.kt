@@ -90,6 +90,7 @@ class UserDetailViewModel(app: Application): AndroidViewModel(app) {
                     if (userDetail != null) {
                         Glide.with(fragment).load(userDetail.value!!.avatarUrl).into(fragment.binding.avatar)
                     }
+                    loading.value = false
                 }
 
             } else if (response.status == Status.FAILED) {

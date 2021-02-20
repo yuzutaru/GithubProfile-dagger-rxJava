@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bones="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View" />
+
+        <import alias="Utils" type="com.eudycontreras.boneslibrary.extensions.NumberExtensionsKt" />
+        <import type="com.eudycontreras.boneslibrary.properties.ShapeType" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginHorizontal="20dp"
+        bones:skeletonEnabled="true"
+        bones:skeletonGenerateBones="@{true}"
+        bones:skeletonAllowSavedState="@{true}"
+        bones:skeletonUseStateTransition="@{true}"
+        bones:skeletonTransitionDuration="@{200L}"
+        bones:skeletonBoneColor="@{@color/bone_color}"
+        bones:skeletonBoneCornerRadius="@{Utils.getDp(10)}"
+        bones:skeletonBoneMaxThickness="@{Utils.getDp(12)}"
+        bones:skeletonBoneMinThickness="@{Utils.getDp(10)}"
+        bones:skeletonShimmerRayColor="@{@color/bone_ray_color}"
+        bones:skeletonShimmerRayCount="@{4}"
+        bones:skeletonShimmerRayInterpolator="@{@android:interpolator/accelerate_quad}"
+        bones:skeletonShimmerRaySharedInterpolator="@{true}"
+        bones:skeletonShimmerRaySpeedMultiplier="@{1f}"
+        bones:skeletonShimmerRayThicknessRatio="@{0.45f}"
+        bones:skeletonShimmerRayTilt="@{-0.2f}">
+
+        <com.eudycontreras.boneslibrary.framework.BonePropertyHolder
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:bonePropAllowSavedState="@{true}"
+            app:bonePropColor="@{@color/bone_color}"
+            app:bonePropCornerRadius="@{Utils.getDp(10)}"
+            app:bonePropId="@{1}"
+            app:bonePropShimmerRayColor="@{@color/bone_ray_color_alt}"
+            app:bonePropShimmerRayCount="@{3}"
+            app:bonePropShimmerRayInterpolator="@{@android:interpolator/fast_out_slow_in}"
+            app:bonePropShimmerRaySharedInterpolator="@{true}"
+            app:bonePropShimmerRaySpeedMultiplier="@{1f}"
+            app:bonePropShimmerRayThicknessRatio="@{0.5f}"
+            app:bonePropMinThickness="@{Utils.getDp(6)}"
+            app:bonePropMaxThickness="@{Utils.getDp(6)}"
+            app:bonePropSectionDistance="@{Utils.getDp(6)}"
+            app:bonePropShimmerRayTilt="@{-0.2f}"
+            app:bonePropTransitionDuration="@{400L}" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cardView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/shape_background_oval_alt"
+            android:elevation="4dp"
+            android:src="@drawable/img_male_avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            bones:skeletonBoneEnabled="true"
+            bones:skeletonBoneShapeType="@{ShapeType.CIRCULAR}"
+            bones:skeletonBoneShadeMultiplier="@{0.9f}"
+            bones:skeletonBoneShimmerRayColor="@{@color/bone_ray_color}"
+            bones:skeletonBoneShimmerRayCount="@{3}"
+            bones:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+            bones:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+            bones:skeletonBoneShimmerRaySpeedMultiplier="@{1.4f}"
+            bones:skeletonBoneShimmerRayThickness="@{Utils.getDp(50)}"
+            bones:skeletonBoneShimmerRayTilt="@{-0.2f}"
+            android:layout_marginTop="80dp"/>
+
+        <TextView
+            android:id="@+id/name_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/name"
+            android:textSize="14sp"
+            android:textColor="@color/md_grey_500"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            app:layout_constraintBottom_toTopOf="@+id/name"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:inputType="text"
+            android:imeOptions="actionUnspecified"
+            style="@style/EditTextCustom"
+            android:text=""
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintTop_toBottomOf="@+id/name_label"
+            app:layout_constraintBottom_toTopOf="@+id/company_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:importantForAutofill="no" />
+
+        <TextView
+            android:id="@+id/company_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/company"
+            android:textSize="14sp"
+            android:textColor="@color/md_grey_500"
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            app:layout_constraintBottom_toTopOf="@+id/company"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <EditText
+            android:id="@+id/company"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:inputType="text"
+            android:imeOptions="actionUnspecified"
+            style="@style/EditTextCustom"
+            android:text=""
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintTop_toBottomOf="@+id/company_label"
+            app:layout_constraintBottom_toTopOf="@id/blog_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:importantForAutofill="no" />
+
+        <TextView
+            android:id="@+id/blog_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/blog"
+            android:textSize="14sp"
+            android:textColor="@color/md_grey_500"
+            app:layout_constraintTop_toBottomOf="@+id/company"
+            app:layout_constraintBottom_toTopOf="@+id/blog"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <EditText
+            android:id="@+id/blog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:inputType="text"
+            android:imeOptions="actionUnspecified"
+            style="@style/EditTextCustom"
+            android:text=""
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintTop_toBottomOf="@+id/blog_label"
+            app:layout_constraintBottom_toTopOf="@+id/notes_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:importantForAutofill="no" />
+
+        <TextView
+            android:id="@+id/notes_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/notes"
+            android:textSize="14sp"
+            android:textColor="@color/md_grey_500"
+            app:layout_constraintTop_toBottomOf="@+id/blog"
+            app:layout_constraintBottom_toTopOf="@+id/notes"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"/>
+
+        <EditText
+            android:id="@+id/notes"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:singleLine="true"
+            android:textColorHint="@color/md_white_100"
+            android:inputType="text"
+            android:maxLines="3"
+            android:imeOptions="actionUnspecified"
+            android:drawableTint="@color/colorPrimaryDark"
+            style="@style/EditTextCustom"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintTop_toBottomOf="@+id/notes_label"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:importantForAutofill="no" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
