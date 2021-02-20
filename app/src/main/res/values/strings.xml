@@ -5,4 +5,9 @@
     <string name="search_icon">Search Icon</string>
 
     <string name="no_connection">No internet connection</string>
+
+    <string name="name">Name</string>
+    <string name="company">Company</string>
+    <string name="blog">Blog</string>
+    <string name="notes">Notes</string>
 </resources>

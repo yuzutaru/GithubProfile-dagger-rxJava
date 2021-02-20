@@ -37,7 +37,7 @@ import kotlin.concurrent.thread
 
 class UserViewModel(app: Application): AndroidViewModel(app) {
     private val LOG_TAG = "User"
-    var loading: MutableLiveData<Boolean> = MutableLiveData(true)
+    var loading: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private val compositeDisposable = CompositeDisposable()
     private val profileRepository: ProfileRepository
@@ -45,7 +45,11 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
     private val user = MutableLiveData<Response<List<UserData>>>()
     fun userDataLive(): LiveData<Response<List<UserData>>> = user
 
+    val login = MutableLiveData<String>()
+    fun loginDataLive(): LiveData<String> = login
+
     lateinit var userList: List<UserData>
+    private var itemClicked = false
 
     init {
         val appComponent = GithubProfileApplication.instance.getAppComponent()
@@ -101,13 +105,25 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         return secondaryBitmap
     }
 
+    fun itemClicked(data: String?) {
+        if (data != null) {
+            itemClicked = true
+            login.value = data
+        }
+
+    }
+
+    fun itemClicked(fragment: UserFragment, response: String) {
+        fragment.userDetail(response)
+        itemClicked = false
+    }
+
     fun getUser() {
         loading.value = true
         compositeDisposable.add(
             profileRepository.userList("0")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { }
                 .subscribe(
                     { res ->
                         user.value = Response.succeed(res)

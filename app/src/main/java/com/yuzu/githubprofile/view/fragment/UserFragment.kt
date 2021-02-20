@@ -2,15 +2,19 @@ package com.yuzu.githubprofile.view.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.databinding.FragmentUserBinding
+import com.yuzu.githubprofile.utils.ARGUMENT_LOGIN
 import com.yuzu.githubprofile.view.activity.MainActivity
 import com.yuzu.githubprofile.view.adapter.UserListAdapter
 import com.yuzu.githubprofile.viewmodel.UserViewModel
@@ -44,7 +48,8 @@ class UserFragment: Fragment() {
         onBackPressed()
 
         viewModel.getUser()
-        viewModel.userDataLive().observe(viewLifecycleOwner, Observer { viewModel.userResponse(this, it) })
+        viewModel.userDataLive().observe(viewLifecycleOwner, { viewModel.userResponse(this, it) })
+        viewModel.loginDataLive().observe(viewLifecycleOwner, { viewModel.itemClicked(this, it) })
     }
 
     fun userSuccess() {
@@ -53,6 +58,12 @@ class UserFragment: Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
         viewModel.loading.value = false
+    }
+
+    fun userDetail(login: String) {
+        Log.e(LOG_TAG, "Login : $login")
+        val bundle = bundleOf(ARGUMENT_LOGIN to login)
+        (activity as MainActivity).replaceFragment(R.id.main_content, UserDetailFragment(), bundle)
     }
 
     private fun onBackPressed() {

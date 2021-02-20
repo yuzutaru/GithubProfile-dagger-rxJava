@@ -7,3 +7,5 @@ package com.yuzu.githubprofile.utils
 const val TIMEOUT_HTTP: String = "60"
 
 const val BASE_URL = "https://api.github.com/"
+
+const val ARGUMENT_LOGIN = "ARGUMENT_LOGIN"

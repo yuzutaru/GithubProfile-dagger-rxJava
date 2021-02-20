@@ -15,7 +15,24 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginHorizontal="20dp"
+        bones:skeletonEnabled="true"
+        bones:skeletonGenerateBones="@{true}"
+        bones:skeletonAllowSavedState="@{true}"
+        bones:skeletonUseStateTransition="@{true}"
+        bones:skeletonTransitionDuration="@{200L}"
+        bones:skeletonBoneColor="@{@color/bone_color}"
+        bones:skeletonBoneCornerRadius="@{Utils.getDp(10)}"
+        bones:skeletonBoneMaxThickness="@{Utils.getDp(12)}"
+        bones:skeletonBoneMinThickness="@{Utils.getDp(10)}"
+        bones:skeletonShimmerRayColor="@{@color/bone_ray_color}"
+        bones:skeletonShimmerRayCount="@{4}"
+        bones:skeletonShimmerRayInterpolator="@{@android:interpolator/accelerate_quad}"
+        bones:skeletonShimmerRaySharedInterpolator="@{true}"
+        bones:skeletonShimmerRaySpeedMultiplier="@{1f}"
+        bones:skeletonShimmerRayThicknessRatio="@{0.45f}"
+        bones:skeletonShimmerRayTilt="@{-0.2f}">
 
         <com.eudycontreras.boneslibrary.framework.BonePropertyHolder
             android:layout_width="match_parent"
@@ -69,15 +86,16 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:skeletonBoneAllowSavedState="@{true}"
-                    app:skeletonBoneEnabled="true"
-                    app:skeletonBoneShimmerRayColor="@{@color/bone_ray_color_alt}"
-                    app:skeletonBoneShimmerRayCount="@{4}"
-                    app:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
-                    app:skeletonBoneShimmerRaySharedInterpolator="@{false}"
-                    app:skeletonBoneShimmerRaySpeedMultiplier="@{1.5f}"
-                    app:skeletonBoneShimmerRayThickness="@{Utils.getDp(70)}"
-                    app:skeletonBoneShimmerRayTilt="@{-0.2f}" />
+                    bones:skeletonBoneEnabled="true"
+                    bones:skeletonBoneShapeType="@{ShapeType.CIRCULAR}"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    bones:skeletonBoneShimmerRayColor="@{@color/bone_ray_color}"
+                    bones:skeletonBoneShimmerRayCount="@{3}"
+                    bones:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+                    bones:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+                    bones:skeletonBoneShimmerRaySpeedMultiplier="@{1.4f}"
+                    bones:skeletonBoneShimmerRayThickness="@{Utils.getDp(50)}"
+                    bones:skeletonBoneShimmerRayTilt="@{-0.2f}" />
 
                 <TextView
                     android:id="@+id/login_1"
