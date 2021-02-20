@@ -1,0 +1,886 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bones="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewmodel"
+            type="com.yuzu.githubprofile.viewmodel.UserViewModel" />
+        <import alias="Utils" type="com.eudycontreras.boneslibrary.extensions.NumberExtensionsKt" />
+        <import type="com.eudycontreras.boneslibrary.properties.ShapeType" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <com.eudycontreras.boneslibrary.framework.BonePropertyHolder
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:bonePropAllowSavedState="@{true}"
+            app:bonePropColor="@{@color/bone_color}"
+            app:bonePropCornerRadius="@{Utils.getDp(10)}"
+            app:bonePropId="@{1}"
+            app:bonePropShimmerRayColor="@{@color/bone_ray_color_alt}"
+            app:bonePropShimmerRayCount="@{3}"
+            app:bonePropShimmerRayInterpolator="@{@android:interpolator/fast_out_slow_in}"
+            app:bonePropShimmerRaySharedInterpolator="@{true}"
+            app:bonePropShimmerRaySpeedMultiplier="@{1f}"
+            app:bonePropShimmerRayThicknessRatio="@{0.5f}"
+            app:bonePropMinThickness="@{Utils.getDp(6)}"
+            app:bonePropMaxThickness="@{Utils.getDp(6)}"
+            app:bonePropSectionDistance="@{Utils.getDp(6)}"
+            app:bonePropShimmerRayTilt="@{-0.2f}"
+            app:bonePropTransitionDuration="@{400L}" />
+
+        <LinearLayout
+            android:id="@+id/skeleton_1"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/background_1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_white_borderless"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="4dp" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cardView_1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/shape_background_oval_alt"
+                    android:elevation="4dp"
+                    android:src="@drawable/img_male_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:skeletonBoneAllowSavedState="@{true}"
+                    app:skeletonBoneEnabled="true"
+                    app:skeletonBoneShimmerRayColor="@{@color/bone_ray_color_alt}"
+                    app:skeletonBoneShimmerRayCount="@{4}"
+                    app:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+                    app:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+                    app:skeletonBoneShimmerRaySpeedMultiplier="@{1.5f}"
+                    app:skeletonBoneShimmerRayThickness="@{Utils.getDp(70)}"
+                    app:skeletonBoneShimmerRayTilt="@{-0.2f}" />
+
+                <TextView
+                    android:id="@+id/login_1"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="Yustar Pramudana"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/repos_1"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_1"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+
+                <TextView
+                    android:id="@+id/repos_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="10sp"
+                    android:text="Android Developer"
+                    app:layout_constraintTop_toBottomOf="@+id/login_1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_1"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/skeleton_2"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/skeleton_1"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/background_2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_white_borderless"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="4dp" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cardView_2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/shape_background_oval_alt"
+                    android:elevation="4dp"
+                    android:src="@drawable/img_male_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:skeletonBoneAllowSavedState="@{true}"
+                    app:skeletonBoneEnabled="true"
+                    app:skeletonBoneShimmerRayColor="@{@color/bone_ray_color_alt}"
+                    app:skeletonBoneShimmerRayCount="@{4}"
+                    app:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+                    app:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+                    app:skeletonBoneShimmerRaySpeedMultiplier="@{1.5f}"
+                    app:skeletonBoneShimmerRayThickness="@{Utils.getDp(70)}"
+                    app:skeletonBoneShimmerRayTilt="@{-0.2f}" />
+
+                <TextView
+                    android:id="@+id/login_2"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="Yustar Pramudana"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/repos_2"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_2"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+
+                <TextView
+                    android:id="@+id/repos_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="10sp"
+                    android:text="Android Developer"
+                    app:layout_constraintTop_toBottomOf="@+id/login_2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_2"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/skeleton_3"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/skeleton_2"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/background_3"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_white_borderless"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="4dp" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cardView_3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/shape_background_oval_alt"
+                    android:elevation="4dp"
+                    android:src="@drawable/img_male_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:skeletonBoneAllowSavedState="@{true}"
+                    app:skeletonBoneEnabled="true"
+                    app:skeletonBoneShimmerRayColor="@{@color/bone_ray_color_alt}"
+                    app:skeletonBoneShimmerRayCount="@{4}"
+                    app:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+                    app:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+                    app:skeletonBoneShimmerRaySpeedMultiplier="@{1.5f}"
+                    app:skeletonBoneShimmerRayThickness="@{Utils.getDp(70)}"
+                    app:skeletonBoneShimmerRayTilt="@{-0.2f}" />
+
+                <TextView
+                    android:id="@+id/login_3"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="Yustar Pramudana"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/repos_3"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_3"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+
+                <TextView
+                    android:id="@+id/repos_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="10sp"
+                    android:text="Android Developer"
+                    app:layout_constraintTop_toBottomOf="@+id/login_3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_3"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/skeleton_4"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/skeleton_3"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/background_4"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_white_borderless"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="4dp" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cardView_4"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/shape_background_oval_alt"
+                    android:elevation="4dp"
+                    android:src="@drawable/img_male_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:skeletonBoneAllowSavedState="@{true}"
+                    app:skeletonBoneEnabled="true"
+                    app:skeletonBoneShimmerRayColor="@{@color/bone_ray_color_alt}"
+                    app:skeletonBoneShimmerRayCount="@{4}"
+                    app:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+                    app:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+                    app:skeletonBoneShimmerRaySpeedMultiplier="@{1.5f}"
+                    app:skeletonBoneShimmerRayThickness="@{Utils.getDp(70)}"
+                    app:skeletonBoneShimmerRayTilt="@{-0.2f}" />
+
+                <TextView
+                    android:id="@+id/login_4"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="Yustar Pramudana"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/repos_4"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_4"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+
+                <TextView
+                    android:id="@+id/repos_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="10sp"
+                    android:text="Android Developer"
+                    app:layout_constraintTop_toBottomOf="@+id/login_4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_4"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/skeleton_5"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/skeleton_4"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/background_5"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_white_borderless"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="4dp" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cardView_5"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/shape_background_oval_alt"
+                    android:elevation="4dp"
+                    android:src="@drawable/img_male_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:skeletonBoneAllowSavedState="@{true}"
+                    app:skeletonBoneEnabled="true"
+                    app:skeletonBoneShimmerRayColor="@{@color/bone_ray_color_alt}"
+                    app:skeletonBoneShimmerRayCount="@{4}"
+                    app:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+                    app:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+                    app:skeletonBoneShimmerRaySpeedMultiplier="@{1.5f}"
+                    app:skeletonBoneShimmerRayThickness="@{Utils.getDp(70)}"
+                    app:skeletonBoneShimmerRayTilt="@{-0.2f}" />
+
+                <TextView
+                    android:id="@+id/login_5"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="Yustar Pramudana"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/repos_5"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_5"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+
+                <TextView
+                    android:id="@+id/repos_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="10sp"
+                    android:text="Android Developer"
+                    app:layout_constraintTop_toBottomOf="@+id/login_5"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_5"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/skeleton_6"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/skeleton_5"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/background_6"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_white_borderless"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="4dp" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cardView_6"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/shape_background_oval_alt"
+                    android:elevation="4dp"
+                    android:src="@drawable/img_male_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:skeletonBoneAllowSavedState="@{true}"
+                    app:skeletonBoneEnabled="true"
+                    app:skeletonBoneShimmerRayColor="@{@color/bone_ray_color_alt}"
+                    app:skeletonBoneShimmerRayCount="@{4}"
+                    app:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+                    app:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+                    app:skeletonBoneShimmerRaySpeedMultiplier="@{1.5f}"
+                    app:skeletonBoneShimmerRayThickness="@{Utils.getDp(70)}"
+                    app:skeletonBoneShimmerRayTilt="@{-0.2f}" />
+
+                <TextView
+                    android:id="@+id/login_6"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="Yustar Pramudana"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/repos_6"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_6"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+
+                <TextView
+                    android:id="@+id/repos_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="10sp"
+                    android:text="Android Developer"
+                    app:layout_constraintTop_toBottomOf="@+id/login_6"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_6"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/skeleton_7"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/skeleton_6"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/background_7"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_white_borderless"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="4dp" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cardView_7"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/shape_background_oval_alt"
+                    android:elevation="4dp"
+                    android:src="@drawable/img_male_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:skeletonBoneAllowSavedState="@{true}"
+                    app:skeletonBoneEnabled="true"
+                    app:skeletonBoneShimmerRayColor="@{@color/bone_ray_color_alt}"
+                    app:skeletonBoneShimmerRayCount="@{4}"
+                    app:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+                    app:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+                    app:skeletonBoneShimmerRaySpeedMultiplier="@{1.5f}"
+                    app:skeletonBoneShimmerRayThickness="@{Utils.getDp(70)}"
+                    app:skeletonBoneShimmerRayTilt="@{-0.2f}" />
+
+                <TextView
+                    android:id="@+id/login_7"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="Yustar Pramudana"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/repos_7"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_7"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+
+                <TextView
+                    android:id="@+id/repos_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="10sp"
+                    android:text="Android Developer"
+                    app:layout_constraintTop_toBottomOf="@+id/login_7"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_7"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/skeleton_8"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/skeleton_7"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/background_8"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_white_borderless"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="4dp" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cardView_8"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/shape_background_oval_alt"
+                    android:elevation="4dp"
+                    android:src="@drawable/img_male_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:skeletonBoneAllowSavedState="@{true}"
+                    app:skeletonBoneEnabled="true"
+                    app:skeletonBoneShimmerRayColor="@{@color/bone_ray_color_alt}"
+                    app:skeletonBoneShimmerRayCount="@{4}"
+                    app:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+                    app:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+                    app:skeletonBoneShimmerRaySpeedMultiplier="@{1.5f}"
+                    app:skeletonBoneShimmerRayThickness="@{Utils.getDp(70)}"
+                    app:skeletonBoneShimmerRayTilt="@{-0.2f}" />
+
+                <TextView
+                    android:id="@+id/login_8"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="Yustar Pramudana"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/repos_8"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_8"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+
+                <TextView
+                    android:id="@+id/repos_8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="10sp"
+                    android:text="Android Developer"
+                    app:layout_constraintTop_toBottomOf="@+id/login_8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_8"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/skeleton_9"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/skeleton_8"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/background_9"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_white_borderless"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="4dp" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cardView_9"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/shape_background_oval_alt"
+                    android:elevation="4dp"
+                    android:src="@drawable/img_male_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:skeletonBoneAllowSavedState="@{true}"
+                    app:skeletonBoneEnabled="true"
+                    app:skeletonBoneShimmerRayColor="@{@color/bone_ray_color_alt}"
+                    app:skeletonBoneShimmerRayCount="@{4}"
+                    app:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+                    app:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+                    app:skeletonBoneShimmerRaySpeedMultiplier="@{1.5f}"
+                    app:skeletonBoneShimmerRayThickness="@{Utils.getDp(70)}"
+                    app:skeletonBoneShimmerRayTilt="@{-0.2f}" />
+
+                <TextView
+                    android:id="@+id/login_9"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="Yustar Pramudana"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/repos_9"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_9"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+
+                <TextView
+                    android:id="@+id/repos_9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="10sp"
+                    android:text="Android Developer"
+                    app:layout_constraintTop_toBottomOf="@+id/login_9"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_9"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/skeleton_10"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/skeleton_9"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/background_10"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_white_borderless"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="4dp" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cardView_10"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/shape_background_oval_alt"
+                    android:elevation="4dp"
+                    android:src="@drawable/img_male_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:skeletonBoneAllowSavedState="@{true}"
+                    app:skeletonBoneEnabled="true"
+                    app:skeletonBoneShimmerRayColor="@{@color/bone_ray_color_alt}"
+                    app:skeletonBoneShimmerRayCount="@{4}"
+                    app:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+                    app:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+                    app:skeletonBoneShimmerRaySpeedMultiplier="@{1.5f}"
+                    app:skeletonBoneShimmerRayThickness="@{Utils.getDp(70)}"
+                    app:skeletonBoneShimmerRayTilt="@{-0.2f}" />
+
+                <TextView
+                    android:id="@+id/login_10"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="Yustar Pramudana"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/repos_10"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_10"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+
+                <TextView
+                    android:id="@+id/repos_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="10sp"
+                    android:text="Android Developer"
+                    app:layout_constraintTop_toBottomOf="@+id/login_10"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_10"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <!--<LinearLayout
+            android:id="@+id/skeleton_11"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/skeleton_10"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/background_11"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_white_borderless"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="4dp" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cardView_11"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/shape_background_oval_alt"
+                    android:elevation="4dp"
+                    android:src="@drawable/img_male_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:skeletonBoneAllowSavedState="@{true}"
+                    app:skeletonBoneEnabled="true"
+                    app:skeletonBoneShimmerRayColor="@{@color/bone_ray_color_alt}"
+                    app:skeletonBoneShimmerRayCount="@{4}"
+                    app:skeletonBoneShimmerRayInterpolator="@{@android:interpolator/decelerate_quad}"
+                    app:skeletonBoneShimmerRaySharedInterpolator="@{false}"
+                    app:skeletonBoneShimmerRaySpeedMultiplier="@{1.5f}"
+                    app:skeletonBoneShimmerRayThickness="@{Utils.getDp(70)}"
+                    app:skeletonBoneShimmerRayTilt="@{-0.2f}" />
+
+                <TextView
+                    android:id="@+id/login_11"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="Yustar Pramudana"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/repos_11"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_11"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+
+                <TextView
+                    android:id="@+id/repos_11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="10sp"
+                    android:text="Android Developer"
+                    app:layout_constraintTop_toBottomOf="@+id/login_11"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView_11"
+                    bones:skeletonBoneShadeMultiplier="@{0.9f}"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

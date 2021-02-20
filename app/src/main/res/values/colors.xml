@@ -12,6 +12,15 @@
     <color name="colorPrimaryDark">@color/md_grey_200</color>
     <color name="colorAccent">@color/black</color>
 
+    <color name="colorPrimaryLight">#4B4B4B</color>
+    <color name="colorPrimaryVeryLight">#3C3C3C</color>
+
+    <color name="bone_color">#E6E6E6</color>
+    <color name="bone_color_alt">#C8C8C8</color>
+
+    <color name="bone_ray_color">#D7BEBEBE</color>
+    <color name="bone_ray_color_alt">#ffffff</color>
+
     <color name="md_white_100">#7E7E7E</color>
     <color name="md_white_150">#898989</color>
     <color name="md_white_200">#9B9999</color>

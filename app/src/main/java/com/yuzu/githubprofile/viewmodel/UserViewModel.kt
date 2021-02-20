@@ -37,6 +37,7 @@ import kotlin.concurrent.thread
 
 class UserViewModel(app: Application): AndroidViewModel(app) {
     private val LOG_TAG = "User"
+    var loading: MutableLiveData<Boolean> = MutableLiveData(true)
 
     private val compositeDisposable = CompositeDisposable()
     private val profileRepository: ProfileRepository
@@ -101,6 +102,7 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
     }
 
     fun getUser() {
+        loading.value = true
         compositeDisposable.add(
             profileRepository.userList("0")
                 .subscribeOn(Schedulers.newThread())

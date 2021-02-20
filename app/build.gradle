@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.yuzu.githubprofile"
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -63,6 +63,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    //Multidex
+    implementation "androidx.multidex:multidex:$multidex_version"
+
     // Dagger
     implementation "com.google.dagger:dagger:$dagger2_version"
     kapt "com.google.dagger:dagger-compiler:$dagger2_version"
@@ -97,4 +100,10 @@ dependencies {
 
     //Asynctask
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
+
+    //Skeleton loading EudyContreras
+    implementation "com.github.EudyContreras:Skeleton-Bones:$skeleton_version"
+
+    // Circle Image View hdodenhof
+    implementation "de.hdodenhof:circleimageview:$circleImageView_viersion"
 }

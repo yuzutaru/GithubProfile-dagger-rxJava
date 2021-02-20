@@ -51,6 +51,8 @@ class UserFragment: Fragment() {
         val adapter = UserListAdapter(viewModel, requireContext())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
+
+        viewModel.loading.value = false
     }
 
     private fun onBackPressed() {
