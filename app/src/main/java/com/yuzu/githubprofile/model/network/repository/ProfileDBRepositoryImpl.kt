@@ -14,8 +14,8 @@ class ProfileDBRepositoryImpl(private val dao: ProfileDAO, private val exec: Exe
         return dao.getAllProfiles()
     }
 
-    override fun getProfile(): Single<ProfileData> {
-        return dao.getProfile()
+    override fun getProfile(login: String): Single<ProfileData> {
+        return dao.getProfile(login)
     }
 
     override fun insert(profileData: ProfileData) {

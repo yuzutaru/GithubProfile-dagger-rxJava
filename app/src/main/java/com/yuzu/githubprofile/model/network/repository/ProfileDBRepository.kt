@@ -12,7 +12,7 @@ import io.reactivex.Single
 
 interface ProfileDBRepository {
     fun getAllProfiles(): Single<List<ProfileData>>
-    fun getProfile(): Single<ProfileData>
+    fun getProfile(login: String): Single<ProfileData>
     fun insert(profileData: ProfileData)
     fun insert(profileDataList: List<ProfileData>)
     fun deleteAllProfiles()

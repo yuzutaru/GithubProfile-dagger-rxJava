@@ -14,6 +14,7 @@ import com.yuzu.githubprofile.model.NoNetworkException
 import com.yuzu.githubprofile.model.Response
 import com.yuzu.githubprofile.model.Status
 import com.yuzu.githubprofile.model.data.ProfileData
+import com.yuzu.githubprofile.model.network.repository.ProfileDBRepository
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
 import com.yuzu.githubprofile.utils.ARGUMENT_LOGIN
 import com.yuzu.githubprofile.view.fragment.ProfileFragment
@@ -28,18 +29,25 @@ import io.reactivex.schedulers.Schedulers
 class ProfileViewModel(app: Application): AndroidViewModel(app) {
     private val LOG_TAG = "UserDetail"
     var loading: MutableLiveData<Boolean> = MutableLiveData(false)
+    lateinit var fragment: ProfileFragment
 
     private val compositeDisposable = CompositeDisposable()
     private val profileRepository: ProfileRepository
+    private val profileDBRepository: ProfileDBRepository
 
-    private val user = MutableLiveData<Response<ProfileData>>()
-    fun userDataLive(): LiveData<Response<ProfileData>> = user
+    private val profile = MutableLiveData<Response<ProfileData>>()
+    fun profileDataLive(): LiveData<Response<ProfileData>> = profile
 
-    var userDetail = MutableLiveData<ProfileData>()
+    private val profileDB = MutableLiveData<Response<ProfileData>>()
+    fun profileDBDataLive(): LiveData<Response<ProfileData>> = profileDB
+
+    private var login = ""
+    var profileData = MutableLiveData<ProfileData>()
 
     init {
         val appComponent = GithubProfileApplication.instance.getAppComponent()
         profileRepository = appComponent.profileRepository()
+        profileDBRepository = appComponent.profileDBRepository()
     }
 
     override fun onCleared() {
@@ -49,14 +57,75 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
 
     fun getLogin(arguments: Bundle?) {
         if (arguments != null) {
-            val login = arguments.getString(ARGUMENT_LOGIN)
-            getUserDetail(login)
+            login = arguments.get(ARGUMENT_LOGIN).toString()
+            profileDB(login)
         }
     }
 
-    private fun getUserDetail(login: String?) {
+    private fun profileDB(login: String?) {
         loading.value = true
+        if (login != null) {
+            compositeDisposable.add(
+                profileDBRepository.getProfile(login)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                                res -> profileDB.value = Response.succeed(res)
+                        },
+                        {
+                            profileDB.value = when (it) {
+                                is NoNetworkException -> {
+                                    Response.networkLost()
+                                }
+                                else -> Response.error(it)
+                            }
+                        }
+                    )
+            )
+        }
+    }
 
+    fun profileDBRes(response: Response<ProfileData>) {
+        try {
+            Log.d(LOG_TAG, "DATA STATUS = ${response.status}")
+
+            if (response.status == Status.SUCCEED) {
+                if (response.data != null) {
+                    profileData.value = response.data
+
+                    Glide.with(fragment).load(profileData.value!!.avatarUrl).into(fragment.binding.avatar)
+                    loading.value = false
+
+                } else {
+                    profile(login)
+                }
+
+            } else if (response.status == Status.FAILED) {
+                if (response.error != null) {
+                    Log.e(LOG_TAG, "errorMessage : ${response.error.message}")
+                    profile(login)
+                    //Toast.makeText(fragment.context, response.error.message, Toast.LENGTH_LONG).show()
+                }
+
+            } else if (response.status == Status.NO_CONNECTION) {
+                Log.e(
+                    LOG_TAG,
+                    "errorMessage : ${fragment.resources.getString(R.string.no_connection)}"
+                )
+                Toast.makeText(
+                    fragment.context,
+                    fragment.resources.getString(R.string.no_connection),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        } catch (e: Exception) {
+            e.message?.let { Log.e(LOG_TAG, it) }
+        }
+    }
+
+    private fun profile(login: String?) {
+        loading.value = true
         if (login != null) {
             compositeDisposable.add(
                     profileRepository.userDetail(login)
@@ -64,10 +133,10 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
                                     {
-                                        res -> user.value = Response.succeed(res)
+                                        res -> profile.value = Response.succeed(res)
                                     },
                                     {
-                                        user.value = when (it) {
+                                        profile.value = when (it) {
                                             is NoNetworkException -> {
                                                 Response.networkLost()
                                             }
@@ -79,22 +148,35 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
-    fun userDetail(fragment: ProfileFragment, response: Response<ProfileData>) {
+    fun profileRes(response: Response<ProfileData>) {
         try {
             Log.d(LOG_TAG, "DATA STATUS = ${response.status}")
 
             if (response.status == Status.SUCCEED) {
                 if (response.data != null) {
-                    userDetail.value = response.data
+                    profileData.value = response.data
+                    profileDBRepository.insert(profileData.value!!)
 
-                    Glide.with(fragment).load(userDetail.value!!.avatarUrl).into(fragment.binding.avatar)
+                    Glide.with(fragment).load(profileData.value!!.avatarUrl).into(fragment.binding.avatar)
                     loading.value = false
                 }
 
             } else if (response.status == Status.FAILED) {
                 if (response.error != null) {
-                    Log.e(LOG_TAG, "errorMessage : ${response.error.message}")
-                    Toast.makeText(fragment.context, response.error.message, Toast.LENGTH_LONG).show()
+                    if (response.error.message != null) {
+                        if (response.error.message!!.contains("Unable to resolve host", true)) {
+                            Log.e(LOG_TAG, "errorMessage : ${fragment.resources.getString(R.string.no_connection)}")
+                            Toast.makeText(fragment.context, fragment.resources.getString(R.string.no_connection), Toast.LENGTH_LONG).show()
+
+                        } else {
+                            Log.e(LOG_TAG, "errorMessage : ${response.error.message}")
+                            Toast.makeText(fragment.context, response.error.message, Toast.LENGTH_LONG).show()
+                        }
+
+                    } else {
+                        Log.e(LOG_TAG, "errorMessage : General Error")
+                        Toast.makeText(fragment.context, "General Error", Toast.LENGTH_LONG).show()
+                    }
                 }
 
             } else if (response.status == Status.NO_CONNECTION) {

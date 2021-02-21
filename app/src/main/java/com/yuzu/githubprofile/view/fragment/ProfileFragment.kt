@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.databinding.FragmentProfileBinding
@@ -43,8 +42,10 @@ class ProfileFragment: Fragment() {
         backOnClickListener()
         onBackPressed()
 
+        viewModel.fragment = this
         viewModel.getLogin(arguments)
-        viewModel.userDataLive().observe(viewLifecycleOwner, Observer { viewModel.userDetail(this, it) })
+        viewModel.profileDBDataLive().observe(viewLifecycleOwner, { viewModel.profileDBRes(it)})
+        viewModel.profileDataLive().observe(viewLifecycleOwner, { viewModel.profileRes(it) })
     }
 
     private fun backOnClickListener() {
@@ -57,8 +58,8 @@ class ProfileFragment: Fragment() {
         requireView().isFocusableInTouchMode = true
         requireView().requestFocus();
         requireView().setOnKeyListener { _, p1, _ ->
-            if (p1 == KeyEvent.KEYCODE_BACK)
-                (activity as MainActivity).replaceFragment(R.id.main_content, UserFragment(), null)
+            /*if (p1 == KeyEvent.KEYCODE_BACK)
+                (activity as MainActivity).replaceFragment(R.id.main_content, UserFragment(), null)*/
 
             true
         }

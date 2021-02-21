@@ -2,6 +2,8 @@ package com.yuzu.githubprofile.model.network.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.yuzu.githubprofile.model.data.ProfileData
 
 /**

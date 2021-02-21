@@ -3,6 +3,8 @@ package com.yuzu.githubprofile.injection.module
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.yuzu.githubprofile.model.network.api.ProfileApi
 import com.yuzu.githubprofile.model.network.local.ProfileDAO
 import com.yuzu.githubprofile.model.network.local.ProfileDB
@@ -138,7 +140,7 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     fun profileDB(): ProfileDB {
-        return Room.databaseBuilder(app, ProfileDB::class.java, "user.db").build()
+        return Room.databaseBuilder(app, ProfileDB::class.java, "profile.db").build()
     }
 
     @Provides

@@ -16,8 +16,8 @@ interface ProfileDAO {
     @Query("SELECT * from ProfileData")
     fun getAllProfiles(): Single<List<ProfileData>>
 
-    @Query("SELECT * FROM ProfileData LIMIT 1")
-    fun getProfile(): Single<ProfileData>
+    @Query("SELECT * FROM ProfileData WHERE login = :login")
+    fun getProfile(login: String): Single<ProfileData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(profileData: ProfileData)
