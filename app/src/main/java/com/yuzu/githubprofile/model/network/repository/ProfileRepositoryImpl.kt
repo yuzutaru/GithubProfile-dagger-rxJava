@@ -1,7 +1,7 @@
 package com.yuzu.githubprofile.model.network.repository
 
 import com.yuzu.githubprofile.model.data.UserData
-import com.yuzu.githubprofile.model.data.Profile
+import com.yuzu.githubprofile.model.data.ProfileData
 import com.yuzu.githubprofile.model.network.api.ProfileApi
 import io.reactivex.Single
 
@@ -14,7 +14,7 @@ class ProfileRepositoryImpl(private val api: ProfileApi): ProfileRepository {
         return api.userList(since)
     }
 
-    override fun userDetail(username: String): Single<Profile> {
+    override fun userDetail(username: String): Single<ProfileData> {
         return api.userDetail(username)
     }
 }

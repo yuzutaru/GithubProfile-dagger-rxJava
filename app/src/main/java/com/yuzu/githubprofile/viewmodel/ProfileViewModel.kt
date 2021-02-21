@@ -13,7 +13,7 @@ import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.model.NoNetworkException
 import com.yuzu.githubprofile.model.Response
 import com.yuzu.githubprofile.model.Status
-import com.yuzu.githubprofile.model.data.Profile
+import com.yuzu.githubprofile.model.data.ProfileData
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
 import com.yuzu.githubprofile.utils.ARGUMENT_LOGIN
 import com.yuzu.githubprofile.view.fragment.ProfileFragment
@@ -32,10 +32,10 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
     private val compositeDisposable = CompositeDisposable()
     private val profileRepository: ProfileRepository
 
-    private val user = MutableLiveData<Response<Profile>>()
-    fun userDataLive(): LiveData<Response<Profile>> = user
+    private val user = MutableLiveData<Response<ProfileData>>()
+    fun userDataLive(): LiveData<Response<ProfileData>> = user
 
-    var userDetail = MutableLiveData<Profile>()
+    var userDetail = MutableLiveData<ProfileData>()
 
     init {
         val appComponent = GithubProfileApplication.instance.getAppComponent()
@@ -79,7 +79,7 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
-    fun userDetail(fragment: ProfileFragment, response: Response<Profile>) {
+    fun userDetail(fragment: ProfileFragment, response: Response<ProfileData>) {
         try {
             Log.d(LOG_TAG, "DATA STATUS = ${response.status}")
 
@@ -87,9 +87,7 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
                 if (response.data != null) {
                     userDetail.value = response.data
 
-                    if (userDetail != null) {
-                        Glide.with(fragment).load(userDetail.value!!.avatarUrl).into(fragment.binding.avatar)
-                    }
+                    Glide.with(fragment).load(userDetail.value!!.avatarUrl).into(fragment.binding.avatar)
                     loading.value = false
                 }
 

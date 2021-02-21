@@ -1,15 +1,19 @@
 package com.yuzu.githubprofile.model.data
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
+@Entity
 @Parcelize
-data class Profile(
+data class ProfileData(
+    @PrimaryKey
+    @SerializedName("id")
+    var id: Int,
     @SerializedName("login")
     var login: String?,
-    @SerializedName("id")
-    var id: Int?,
     @SerializedName("node_id")
     var nodeId: String?,
     @SerializedName("avatar_url")

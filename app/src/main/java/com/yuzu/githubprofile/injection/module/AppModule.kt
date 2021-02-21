@@ -4,12 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.room.Room
 import com.yuzu.githubprofile.model.network.api.ProfileApi
+import com.yuzu.githubprofile.model.network.local.ProfileDAO
+import com.yuzu.githubprofile.model.network.local.ProfileDB
 import com.yuzu.githubprofile.model.network.local.UserDAO
 import com.yuzu.githubprofile.model.network.local.UserDB
-import com.yuzu.githubprofile.model.network.repository.ProfileRepository
-import com.yuzu.githubprofile.model.network.repository.ProfileRepositoryImpl
-import com.yuzu.githubprofile.model.network.repository.UserDBRepository
-import com.yuzu.githubprofile.model.network.repository.UserDBRepositoryImpl
+import com.yuzu.githubprofile.model.network.repository.*
 import com.yuzu.githubprofile.utils.BASE_URL
 import com.yuzu.githubprofile.utils.TIMEOUT_HTTP
 import dagger.Module
@@ -110,7 +109,7 @@ class AppModule(private val app: Application) {
             .create(ProfileApi::class.java)
     }
 
-    //Profile ROOM DATA
+    //User ROOM DATA
     @Provides
     @Singleton
     fun userDBRepository(dao: UserDAO, exec: Executor): UserDBRepository {
@@ -127,6 +126,25 @@ class AppModule(private val app: Application) {
     @Singleton
     fun userDAO(db: UserDB): UserDAO {
         return db.userDAO()
+    }
+
+    //Profile ROOM DATA
+    @Provides
+    @Singleton
+    fun profileDBRepository(dao: ProfileDAO, exec: Executor): ProfileDBRepository {
+        return ProfileDBRepositoryImpl(dao, exec)
+    }
+
+    @Provides
+    @Singleton
+    fun profileDB(): ProfileDB {
+        return Room.databaseBuilder(app, ProfileDB::class.java, "user.db").build()
+    }
+
+    @Provides
+    @Singleton
+    fun profileDAO(db: ProfileDB): ProfileDAO {
+        return db.profileDAO()
     }
 
 

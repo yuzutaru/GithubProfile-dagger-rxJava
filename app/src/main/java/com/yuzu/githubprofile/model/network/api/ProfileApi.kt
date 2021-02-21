@@ -1,7 +1,7 @@
 package com.yuzu.githubprofile.model.network.api
 
 import com.yuzu.githubprofile.model.data.UserData
-import com.yuzu.githubprofile.model.data.Profile
+import com.yuzu.githubprofile.model.data.ProfileData
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -21,5 +21,5 @@ interface ProfileApi {
      * User Detail
      * */
     @GET(value = "users/{username}")
-    fun userDetail(@Path(value = "username") username: String): Single<Profile>
+    fun userDetail(@Path(value = "username") username: String): Single<ProfileData>
 }
