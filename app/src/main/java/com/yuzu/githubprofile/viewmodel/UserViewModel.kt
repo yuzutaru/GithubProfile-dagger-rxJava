@@ -18,6 +18,7 @@ import com.yuzu.githubprofile.model.Response
 import com.yuzu.githubprofile.model.Status
 import com.yuzu.githubprofile.model.data.UserData
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
+import com.yuzu.githubprofile.model.network.repository.UserDBRepository
 import com.yuzu.githubprofile.view.fragment.UserFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -38,22 +39,28 @@ import kotlin.concurrent.thread
 class UserViewModel(app: Application): AndroidViewModel(app) {
     private val LOG_TAG = "User"
     var loading: MutableLiveData<Boolean> = MutableLiveData(false)
+    lateinit var fragment: UserFragment
 
     private val compositeDisposable = CompositeDisposable()
     private val profileRepository: ProfileRepository
+    private val userDBRepository: UserDBRepository
 
     private val user = MutableLiveData<Response<List<UserData>>>()
     fun userDataLive(): LiveData<Response<List<UserData>>> = user
 
+    private val userDB = MutableLiveData<Response<List<UserData>>>()
+    fun userDBDataLive(): LiveData<Response<List<UserData>>> = userDB
+
     val login = MutableLiveData<String>()
     fun loginDataLive(): LiveData<String> = login
 
-    lateinit var userList: List<UserData>
+    var userList: List<UserData>? = null
     private var itemClicked = false
 
     init {
         val appComponent = GithubProfileApplication.instance.getAppComponent()
         profileRepository = appComponent.profileRepository()
+        userDBRepository = appComponent.userDBRepository()
     }
 
     override fun onCleared() {
@@ -110,15 +117,71 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
             itemClicked = true
             login.value = data
         }
-
     }
 
-    fun itemClicked(fragment: UserFragment, response: String) {
+    fun itemClickedRes(response: String) {
         fragment.userDetail(response)
         itemClicked = false
     }
 
-    fun getUser() {
+    fun userDB() {
+        loading.value = true
+        compositeDisposable.add(
+            userDBRepository.getAllUsers()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { res ->
+                        userDB.value = Response.succeed(res)
+                    },
+                    {
+                        userDB.value = when (it) {
+                            is NoNetworkException -> {
+                                Response.networkLost()
+                            }
+                            else -> Response.error(it)
+                        }
+                    }
+                )
+        )
+    }
+
+    fun userDBResponse(response: Response<List<UserData>>) {
+        try {
+            Log.d(LOG_TAG, "DATA STATUS = ${response.status}")
+
+            if (response.status == Status.SUCCEED) {
+                if (!response.data.isNullOrEmpty()) {
+                    userList = response.data
+                    fragment.setListUser()
+
+                } else {
+                    getUser()
+                }
+
+            } else if (response.status == Status.FAILED) {
+                if (response.error != null) {
+                    Log.e(LOG_TAG, "errorMessage : ${response.error.message}")
+                    Toast.makeText(fragment.context, response.error.message, Toast.LENGTH_LONG).show()
+                }
+
+            } else if (response.status == Status.NO_CONNECTION) {
+                Log.e(
+                    LOG_TAG,
+                    "errorMessage : ${fragment.resources.getString(R.string.no_connection)}"
+                )
+                Toast.makeText(
+                    fragment.context,
+                    fragment.resources.getString(R.string.no_connection),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        } catch (e: Exception) {
+            e.message?.let { Log.e(LOG_TAG, it) }
+        }
+    }
+
+    private fun getUser() {
         loading.value = true
         compositeDisposable.add(
             profileRepository.userList("0")
@@ -140,14 +203,16 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         )
     }
 
-    fun userResponse(fragment: UserFragment, response: Response<List<UserData>>) {
+    fun userResponse(response: Response<List<UserData>>) {
         try {
             Log.d(LOG_TAG, "DATA STATUS = ${response.status}")
 
             if (response.status == Status.SUCCEED) {
                 if (response.data != null) {
                     userList = response.data
-                    fragment.userSuccess()
+                    userDBRepository.insert(userList!!)
+
+                    fragment.setListUser()
                 }
 
             } else if (response.status == Status.FAILED) {

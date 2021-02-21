@@ -46,12 +46,15 @@ class UserFragment: Fragment() {
 
         onBackPressed()
 
-        viewModel.getUser()
-        viewModel.userDataLive().observe(viewLifecycleOwner, { viewModel.userResponse(this, it) })
-        viewModel.loginDataLive().observe(viewLifecycleOwner, { viewModel.itemClicked(this, it) })
+        viewModel.fragment = this
+
+        viewModel.userDB()
+        viewModel.userDBDataLive().observe(viewLifecycleOwner, {viewModel.userDBResponse(it)})
+        viewModel.userDataLive().observe(viewLifecycleOwner, { viewModel.userResponse(it) })
+        viewModel.loginDataLive().observe(viewLifecycleOwner, { viewModel.itemClickedRes(it) })
     }
 
-    fun userSuccess() {
+    fun setListUser() {
         val adapter = UserListAdapter(viewModel, requireContext())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
