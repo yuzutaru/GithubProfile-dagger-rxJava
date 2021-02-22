@@ -5,6 +5,8 @@ package com.yuzu.githubprofile.utils
  */
 
 const val TIMEOUT_HTTP: String = "60"
+const val RETRY_MAX = 3
+const val RETRY_DELAY = 800L
 
 const val BASE_URL = "https://api.github.com/"
 

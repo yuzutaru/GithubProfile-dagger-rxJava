@@ -16,12 +16,13 @@ public class RetryWithDelay implements Function<Flowable<Throwable>, Publisher<?
     private final int maxRetries;
     private long retryDelayMillis;
     private int retryCount;
-    private final int delayFactor = 2;
+    private final int delayFactor;
 
     public RetryWithDelay(final int maxRetries, final int retryDelayMillis) {
         this.maxRetries = maxRetries;
         this.retryDelayMillis = retryDelayMillis;
         this.retryCount = 0;
+        this.delayFactor = 2;
     }
 
     @Override

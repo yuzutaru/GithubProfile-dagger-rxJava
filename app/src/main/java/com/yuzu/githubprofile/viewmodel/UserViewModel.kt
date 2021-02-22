@@ -19,6 +19,8 @@ import com.yuzu.githubprofile.model.Status
 import com.yuzu.githubprofile.model.data.UserData
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
 import com.yuzu.githubprofile.model.network.repository.UserDBRepository
+import com.yuzu.githubprofile.utils.RETRY_DELAY
+import com.yuzu.githubprofile.utils.RETRY_MAX
 import com.yuzu.githubprofile.view.fragment.UserFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -122,6 +124,64 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         itemClicked = false
     }
 
+    fun getUser() {
+        loading.value = true
+
+        compositeDisposable.add(
+            profileRepository.userList("0")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .retryWhen(
+                    RetryWithDelay(
+                        RETRY_MAX,
+                        RETRY_DELAY.toInt()
+                    )
+                )
+                .subscribe(
+                    { res ->
+                        user.value = Response.succeed(res)
+                    },
+                    {
+                        userDB()
+                    }
+                )
+        )
+    }
+
+    fun userResponse(response: Response<List<UserData>>) {
+        try {
+            Log.d(LOG_TAG, "DATA STATUS = ${response.status}")
+
+            if (response.status == Status.SUCCEED) {
+                if (response.data != null) {
+                    userList = response.data
+                    userDBRepository.insert(userList!!)
+
+                    fragment.setListUser()
+                }
+
+            } else if (response.status == Status.FAILED) {
+                if (response.error != null) {
+                    Log.e(LOG_TAG, "errorMessage : ${response.error.message}")
+                    Toast.makeText(fragment.context, response.error.message, Toast.LENGTH_LONG).show()
+                }
+
+            } else if (response.status == Status.NO_CONNECTION) {
+                Log.e(
+                    LOG_TAG,
+                    "errorMessage : ${fragment.resources.getString(R.string.no_connection)}"
+                )
+                Toast.makeText(
+                    fragment.context,
+                    fragment.resources.getString(R.string.no_connection),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        } catch (e: Exception) {
+            e.message?.let { Log.e(LOG_TAG, it) }
+        }
+    }
+
     private fun userDB() {
         loading.value = true
         compositeDisposable.add(
@@ -163,60 +223,6 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
                         fragment.resources.getString(R.string.no_connection),
                         Toast.LENGTH_LONG
                     ).show()
-                }
-
-            } else if (response.status == Status.FAILED) {
-                if (response.error != null) {
-                    Log.e(LOG_TAG, "errorMessage : ${response.error.message}")
-                    Toast.makeText(fragment.context, response.error.message, Toast.LENGTH_LONG).show()
-                }
-
-            } else if (response.status == Status.NO_CONNECTION) {
-                Log.e(
-                    LOG_TAG,
-                    "errorMessage : ${fragment.resources.getString(R.string.no_connection)}"
-                )
-                Toast.makeText(
-                    fragment.context,
-                    fragment.resources.getString(R.string.no_connection),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        } catch (e: Exception) {
-            e.message?.let { Log.e(LOG_TAG, it) }
-        }
-    }
-
-    fun getUser() {
-        loading.value = true
-        var currentDelay = 1000L
-
-        compositeDisposable.add(
-            profileRepository.userList("0")
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .retryWhen(RetryWithDelay(3, currentDelay.toInt()))
-                .subscribe(
-                    { res ->
-                        user.value = Response.succeed(res)
-                    },
-                    {
-                        userDB()
-                    }
-                )
-        )
-    }
-
-    fun userResponse(response: Response<List<UserData>>) {
-        try {
-            Log.d(LOG_TAG, "DATA STATUS = ${response.status}")
-
-            if (response.status == Status.SUCCEED) {
-                if (response.data != null) {
-                    userList = response.data
-                    userDBRepository.insert(userList!!)
-
-                    fragment.setListUser()
                 }
 
             } else if (response.status == Status.FAILED) {
