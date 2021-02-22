@@ -48,9 +48,9 @@ class UserFragment: Fragment() {
 
         viewModel.fragment = this
 
-        viewModel.userDB()
-        viewModel.userDBDataLive().observe(viewLifecycleOwner, {viewModel.userDBResponse(it)})
+        viewModel.getUser()
         viewModel.userDataLive().observe(viewLifecycleOwner, { viewModel.userResponse(it) })
+        viewModel.userDBDataLive().observe(viewLifecycleOwner, {viewModel.userDBResponse(it)})
         viewModel.loginDataLive().observe(viewLifecycleOwner, { viewModel.itemClickedRes(it) })
     }
 

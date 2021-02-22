@@ -24,13 +24,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.onComplete
 import org.jetbrains.anko.uiThread
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
-import kotlin.concurrent.thread
 
 /**
  * Created by Yustar Pramudana on 18/02/2021
@@ -124,7 +122,7 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         itemClicked = false
     }
 
-    fun userDB() {
+    private fun userDB() {
         loading.value = true
         compositeDisposable.add(
             userDBRepository.getAllUsers()
@@ -156,7 +154,15 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
                     fragment.setListUser()
 
                 } else {
-                    getUser()
+                    Log.e(
+                        LOG_TAG,
+                        "errorMessage : ${fragment.resources.getString(R.string.no_connection)}"
+                    )
+                    Toast.makeText(
+                        fragment.context,
+                        fragment.resources.getString(R.string.no_connection),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
 
             } else if (response.status == Status.FAILED) {
@@ -181,23 +187,21 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
-    private fun getUser() {
+    fun getUser() {
         loading.value = true
+        var currentDelay = 1000L
+
         compositeDisposable.add(
             profileRepository.userList("0")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .retryWhen(RetryWithDelay(3, currentDelay.toInt()))
                 .subscribe(
                     { res ->
                         user.value = Response.succeed(res)
                     },
                     {
-                        user.value = when (it) {
-                            is NoNetworkException -> {
-                                Response.networkLost()
-                            }
-                            else -> Response.error(it)
-                        }
+                        userDB()
                     }
                 )
         )
