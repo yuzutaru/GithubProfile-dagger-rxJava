@@ -10,8 +10,8 @@ import io.reactivex.Single
 
 @Dao
 interface UserDAO {
-    @Query("SELECT * from UserData LIMIT :itemSize")
-    fun getAllUsers(itemSize: Int): Single<List<UserData>>
+    @Query("SELECT * from UserData LIMIT")
+    fun getAllUsers(): Single<List<UserData>>
 
     @Query("SELECT * FROM UserData LIMIT 1")
     fun getUser(): Single<UserData>
