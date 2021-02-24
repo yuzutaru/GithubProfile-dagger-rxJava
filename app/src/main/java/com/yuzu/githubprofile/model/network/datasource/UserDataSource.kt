@@ -106,11 +106,17 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {   response ->
-                        updateState(State.DONE)
-                        callback.onResult(response,
-                            null,
-                            response[response.size - 1].id
-                        )
+                        if (!response.isNullOrEmpty()) {
+                            updateState(State.DONE)
+                            callback.onResult(response,
+                                null,
+                                response[response.size - 1].id
+                            )
+                        } else {
+                            updateState(State.ERROR)
+                            setRetry(Action { loadInitial(params, callback) })
+                        }
+
                     }, {
                         updateState(State.ERROR)
                         setRetry(Action { loadInitial(params, callback) })
@@ -126,8 +132,13 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {   response ->
-                        updateState(State.DONE)
-                        callback.onResult(response, params.key + 1)
+                        if (!response.isNullOrEmpty()) {
+                            updateState(State.DONE)
+                            callback.onResult(response, params.key + 1)
+                        } else {
+                            updateState(State.ERROR)
+                            setRetry(Action {loadAfter(params, callback)})
+                        }
 
                     }, {
                         updateState(State.ERROR)

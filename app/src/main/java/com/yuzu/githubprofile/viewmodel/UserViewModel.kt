@@ -138,6 +138,7 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
             binding.txtError.visibility = View.GONE
 
         } else if (listIsEmpty() && state == State.ERROR) {
+            loading.value = false
             binding.txtError.visibility = View.VISIBLE
 
         } else {

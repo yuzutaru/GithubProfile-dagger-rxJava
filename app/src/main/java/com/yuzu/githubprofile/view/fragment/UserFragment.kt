@@ -74,7 +74,11 @@ class UserFragment: Fragment() {
     }
 
     private fun initState() {
-        binding.txtError.setOnClickListener { viewModel.retry() }
+        binding.txtError.setOnClickListener {
+            Log.e(LOG_TAG, "errorClicked")
+            viewModel.retry()
+        }
+
         viewModel.getState().observe(viewLifecycleOwner, { state ->
             viewModel.recyclerViewVisibility(binding, state, userListAdapter)
             //footerBinding.progressBar.visibility = if (viewModel.listIsEmpty() && state == State.LOADING) View.VISIBLE else View.GONE
