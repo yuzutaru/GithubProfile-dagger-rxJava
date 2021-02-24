@@ -107,6 +107,6 @@ dependencies {
     // Circle Image View hdodenhof
     implementation "de.hdodenhof:circleimageview:$circleImageView_viersion"
 
-    //Pagin Library
-    implementation "androidx.paging:paging-runtime:$paging_version"
+    //Paging Library
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 }

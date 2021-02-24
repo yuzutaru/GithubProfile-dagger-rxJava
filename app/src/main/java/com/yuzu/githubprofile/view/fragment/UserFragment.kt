@@ -16,6 +16,7 @@ import com.yuzu.githubprofile.databinding.FragmentUserBinding
 import com.yuzu.githubprofile.utils.ARGUMENT_LOGIN
 import com.yuzu.githubprofile.view.activity.MainActivity
 import com.yuzu.githubprofile.view.adapter.UserListAdapter
+import com.yuzu.githubprofile.view.adapter.UserListPagedAdapter
 import com.yuzu.githubprofile.viewmodel.UserViewModel
 
 /**
@@ -26,6 +27,7 @@ class UserFragment: Fragment() {
     private val LOG_TAG = "User"
     private lateinit var binding: FragmentUserBinding
     private lateinit var viewModel: UserViewModel
+    private lateinit var userListAdapter: UserListPagedAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,13 +46,15 @@ class UserFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        initAdapter()
+        initState()
         onBackPressed()
 
         viewModel.fragment = this
 
-        viewModel.getUser()
+        /*viewModel.getUser()
         viewModel.userDataLive().observe(viewLifecycleOwner, { viewModel.userResponse(it) })
-        viewModel.userDBDataLive().observe(viewLifecycleOwner, {viewModel.userDBResponse(it)})
+        viewModel.userDBDataLive().observe(viewLifecycleOwner, {viewModel.userDBResponse(it)})*/
         viewModel.loginDataLive().observe(viewLifecycleOwner, { viewModel.itemClickedRes(it) })
     }
 
@@ -60,6 +64,22 @@ class UserFragment: Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
         viewModel.loading.value = false
+    }
+
+    private fun initAdapter() {
+        binding.txtError.setOnClickListener { viewModel.retry() }
+        userListAdapter = UserListPagedAdapter(viewModel) { viewModel.retry() }
+        binding.recyclerView.adapter = userListAdapter
+        viewModel.userPagedList.observe(viewLifecycleOwner, {userListAdapter.submitList(it)})
+    }
+
+    private fun initState() {
+        binding.txtError.setOnClickListener { viewModel.retry() }
+        viewModel.getState().observe(viewLifecycleOwner, { state ->
+            viewModel.recyclerViewVisibility(binding, state, userListAdapter)
+            //footerBinding.progressBar.visibility = if (viewModel.listIsEmpty() && state == State.LOADING) View.VISIBLE else View.GONE
+            //footerBinding.txtError.visibility = if (viewModel.listIsEmpty() && state == State.ERROR) View.VISIBLE else View.GONE
+        })
     }
 
     fun userDetail(login: String) {

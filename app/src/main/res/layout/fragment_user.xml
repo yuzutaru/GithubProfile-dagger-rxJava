@@ -57,18 +57,27 @@
         </androidx.appcompat.widget.Toolbar>
 
         <include
-            layout="@layout/skeleton_item_user_list"
+            layout="@layout/skeleton_user_list"
             android:visibility="@{safeUnbox(viewmodel.loading) ? View.VISIBLE : View.GONE}"/>
+
+        <TextView
+            android:id="@+id/txt_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/error_message" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="?actionBarSize"
             android:layout_marginHorizontal="20dp"
-            android:visibility="@{safeUnbox(viewmodel.loading) ? View.GONE : View.VISIBLE}"/>
+            android:visibility="@{safeUnbox(viewmodel.loading) ? View.GONE : View.VISIBLE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_user_list"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

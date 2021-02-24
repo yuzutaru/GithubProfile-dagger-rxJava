@@ -15,13 +15,13 @@ class UserListViewHolder constructor(private val viewModel: UserViewModel?, item
     private val binding = ItemUserListBinding.bind(itemView)
 
     fun bind(i: Int, data: List<UserData>) {
-        viewModel!!.setImage(i, data, itemView, binding)
+        //viewModel!!.setImage(i, data, itemView, binding)
 
         binding.login.text = data[i].login
         binding.repos.text = data[i].reposUrl
 
         binding.background.setOnClickListener {
-            viewModel.itemClicked(data[i].login)
+            viewModel!!.itemClicked(data[i].login)
         }
     }
 }

@@ -12,9 +12,10 @@ import io.reactivex.Single
  */
 
 interface UserDBRepository {
-    fun getAllUsers(): Single<List<UserData>>
+    fun getAllUsers(itemSize: Int): Single<List<UserData>>
     fun getUser(): Single<UserData>
     fun insert(userData: UserData)
     fun insert(userDataList: List<UserData>)
     fun deleteAllUsers()
+    fun deleteAllAndInsertsList(list: List<UserData>)
 }

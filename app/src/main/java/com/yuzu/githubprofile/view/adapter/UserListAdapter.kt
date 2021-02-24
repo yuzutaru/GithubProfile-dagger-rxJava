@@ -28,19 +28,19 @@ class UserListAdapter(private val viewModel: UserViewModel?, private val context
 
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
         mPosition++
-        if (viewModel != null) {
+        /*if (viewModel != null) {
             if (!viewModel.userList.isNullOrEmpty())
                 holder.bind(position, viewModel.userList!!)
-        }
+        }*/
 
         setAnimation(holder.itemView, position)
     }
 
     override fun getItemCount(): Int {
         var result = 0
-        if (viewModel != null)
+        /*if (viewModel != null)
             if (!viewModel.userList.isNullOrEmpty())
-                result = viewModel.userList!!.size
+                result = viewModel.userList!!.size*/
 
         return result
     }

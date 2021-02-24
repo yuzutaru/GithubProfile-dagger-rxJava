@@ -9,24 +9,30 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.bumptech.glide.Glide
 import com.yuzu.githubprofile.GithubProfileApplication
 import com.yuzu.githubprofile.R
+import com.yuzu.githubprofile.databinding.FragmentUserBinding
 import com.yuzu.githubprofile.databinding.ItemUserListBinding
 import com.yuzu.githubprofile.model.NoNetworkException
 import com.yuzu.githubprofile.model.Response
 import com.yuzu.githubprofile.model.Status
 import com.yuzu.githubprofile.model.data.UserData
+import com.yuzu.githubprofile.model.network.State
+import com.yuzu.githubprofile.model.network.datasource.UserDataSource
+import com.yuzu.githubprofile.model.network.datasource.UserDataSourceFactory
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
 import com.yuzu.githubprofile.model.network.repository.UserDBRepository
 import com.yuzu.githubprofile.utils.RETRY_DELAY
 import com.yuzu.githubprofile.utils.RETRY_MAX
+import com.yuzu.githubprofile.view.adapter.UserListPagedAdapter
 import com.yuzu.githubprofile.view.fragment.UserFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -57,10 +63,18 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
     var userList: List<UserData>? = null
     private var itemClicked = false
 
+    private val userDataSourceFactory: UserDataSourceFactory
+    private val pageSize = 1
+    var userPagedList: LiveData<PagedList<UserData>>
+
     init {
         val appComponent = GithubProfileApplication.instance.getAppComponent()
         profileRepository = appComponent.profileRepository()
         userDBRepository = appComponent.userDBRepository()
+
+        userDataSourceFactory = UserDataSourceFactory(profileRepository, compositeDisposable)
+        val config = PagedList.Config.Builder().setPageSize(pageSize).setInitialLoadSizeHint(pageSize).setEnablePlaceholders(false).build()
+        userPagedList = LivePagedListBuilder(userDataSourceFactory, config).build()
     }
 
     override fun onCleared() {
@@ -68,8 +82,10 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         super.onCleared()
     }
 
-    fun setImage(i: Int, data: List<UserData>, itemView: View, binding: ItemUserListBinding) {
-        if ((i + 1).rem(4) == 0 && i > 0 && (i + 1) < data.size) {
+    fun setImage(data: UserData, itemView: View, binding: ItemUserListBinding) {
+        Glide.with(itemView).load(data.avatarUrl).into(binding.avatar)
+
+        /*if ((i + 1).rem(4) == 0 && i > 0 && (i + 1) < data.size) {
             doAsync {
                 var bitmap = getBitmapFromURL(data[i].avatarUrl)
                 bitmap = invertBitmap(bitmap!!)
@@ -78,7 +94,7 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
 
         } else {
             Glide.with(itemView).load(data[i].avatarUrl).into(binding.avatar)
-        }
+        }*/
     }
 
     private fun getBitmapFromURL(src: String?): Bitmap? {
@@ -124,7 +140,40 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         itemClicked = false
     }
 
-    fun getUser() {
+    fun recyclerViewVisibility(binding: FragmentUserBinding, state: State, userListAdapter: UserListPagedAdapter) {
+        if (listIsEmpty() && state == State.LOADING) {
+            loading.value = true
+            binding.recyclerView.visibility = View.GONE
+            binding.txtError.visibility = View.GONE
+
+        } else if (listIsEmpty() && state == State.ERROR) {
+            binding.txtError.visibility = View.VISIBLE
+
+        } else {
+            loading.value = false
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.txtError.visibility = View.GONE
+        }
+
+        if (!listIsEmpty()) {
+            userListAdapter.setState(state ?: State.DONE)
+        }
+    }
+
+    fun retry() {
+        userDataSourceFactory.userDataSourceLiveData.value?.retry()
+    }
+
+    fun getState(): LiveData<State> = Transformations.switchMap(
+            userDataSourceFactory.userDataSourceLiveData,
+            UserDataSource::state
+    )
+
+    fun listIsEmpty(): Boolean {
+        return userPagedList.value?.isEmpty() ?: true
+    }
+
+    /*fun getUser() {
         loading.value = true
 
         compositeDisposable.add(
@@ -155,9 +204,9 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
             if (response.status == Status.SUCCEED) {
                 if (response.data != null) {
                     userList = response.data
-                    userDBRepository.insert(userList!!)
+                    userDBRepository.deleteAllAndInsertsList(userList!!)
 
-                    fragment.setListUser()
+                    //fragment.setListUser()
                 }
 
             } else if (response.status == Status.FAILED) {
@@ -211,7 +260,7 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
             if (response.status == Status.SUCCEED) {
                 if (!response.data.isNullOrEmpty()) {
                     userList = response.data
-                    fragment.setListUser()
+                    //fragment.setListUser()
 
                 } else {
                     Log.e(
@@ -245,5 +294,5 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         } catch (e: Exception) {
             e.message?.let { Log.e(LOG_TAG, it) }
         }
-    }
+    }*/
 }
