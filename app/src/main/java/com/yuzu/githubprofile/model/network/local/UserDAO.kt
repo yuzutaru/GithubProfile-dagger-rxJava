@@ -26,7 +26,7 @@ interface UserDAO {
     fun deleteAllUsers()
 
     @Transaction
-    fun deleteAllAndInsertsList(list: List<UserData>) {
+    fun deleteAllAndInsert(list: List<UserData>) {
         deleteAllUsers()
         insert(list)
     }

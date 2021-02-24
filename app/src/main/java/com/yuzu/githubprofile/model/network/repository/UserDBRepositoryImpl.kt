@@ -36,9 +36,9 @@ class UserDBRepositoryImpl(private val dao: UserDAO, private val exec: Executor)
         }
     }
 
-    override fun deleteAllAndInsertsList(list: List<UserData>) {
+    override fun deleteAllAndInsert(list: List<UserData>) {
         exec.execute {
-            dao.deleteAllAndInsertsList(list)
+            dao.deleteAllAndInsert(list)
         }
     }
 }

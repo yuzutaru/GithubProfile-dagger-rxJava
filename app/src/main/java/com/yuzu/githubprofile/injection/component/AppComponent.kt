@@ -3,12 +3,10 @@ package com.yuzu.githubprofile.injection.component
 import android.app.Application
 import com.yuzu.githubprofile.injection.module.AppModule
 import com.yuzu.githubprofile.model.network.api.ProfileApi
-import com.yuzu.githubprofile.model.network.local.ProfileDAO
-import com.yuzu.githubprofile.model.network.local.ProfileDB
-import com.yuzu.githubprofile.model.network.local.UserDAO
-import com.yuzu.githubprofile.model.network.local.UserDB
+import com.yuzu.githubprofile.model.network.local.*
 import com.yuzu.githubprofile.model.network.repository.ProfileDBRepository
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
+import com.yuzu.githubprofile.model.network.repository.SinceDBRepository
 import com.yuzu.githubprofile.model.network.repository.UserDBRepository
 import dagger.Component
 import javax.inject.Singleton
@@ -25,6 +23,11 @@ interface AppComponent {
     //Profile API
     fun profileRepository(): ProfileRepository
     fun profileApi(): ProfileApi
+
+    //Since ROOM Data
+    fun sinceDBRepository(): SinceDBRepository
+    fun sinceDB(): SinceDB
+    fun sinceDAO(): SinceDAO
 
     //User ROOM DATA
     fun userDBRepository(): UserDBRepository

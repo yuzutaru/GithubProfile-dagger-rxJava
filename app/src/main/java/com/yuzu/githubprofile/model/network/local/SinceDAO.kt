@@ -1,7 +1,7 @@
 package com.yuzu.githubprofile.model.network.local
 
 import androidx.room.*
-import com.yuzu.githubprofile.model.data.UserData
+import com.yuzu.githubprofile.model.data.SinceData
 import io.reactivex.Single
 
 /**
@@ -10,24 +10,24 @@ import io.reactivex.Single
 
 @Dao
 interface SinceDAO {
-    @Query("SELECT * from SinceData LIMIT :itemSize")
-    fun getAllUsers(itemSize: Int): Single<List<UserData>>
+    @Query("SELECT * from SinceData")
+    fun getAllSince(): Single<List<SinceData>>
 
-    @Query("SELECT * FROM UserData LIMIT 1")
-    fun getUser(): Single<UserData>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(userData: UserData)
+    @Query("SELECT * FROM UserData WHERE id = :since LIMIT 1")
+    fun getSince(since: Int): Single<SinceData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(userDataList: List<UserData>)
+    fun insert(data: SinceData)
 
-    @Query("DELETE FROM UserData")
-    fun deleteAllUsers()
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(list: List<SinceData>)
+
+    @Query("DELETE FROM SinceData")
+    fun deleteAllSinces()
 
     @Transaction
-    fun deleteAllAndInsertsList(list: List<UserData>) {
-        deleteAllUsers()
+    fun deleteAllAndInsert(list: List<SinceData>) {
+        deleteAllSinces()
         insert(list)
     }
 }

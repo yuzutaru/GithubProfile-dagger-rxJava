@@ -6,10 +6,7 @@ import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.yuzu.githubprofile.model.network.api.ProfileApi
-import com.yuzu.githubprofile.model.network.local.ProfileDAO
-import com.yuzu.githubprofile.model.network.local.ProfileDB
-import com.yuzu.githubprofile.model.network.local.UserDAO
-import com.yuzu.githubprofile.model.network.local.UserDB
+import com.yuzu.githubprofile.model.network.local.*
 import com.yuzu.githubprofile.model.network.repository.*
 import com.yuzu.githubprofile.utils.BASE_URL
 import com.yuzu.githubprofile.utils.TIMEOUT_HTTP
@@ -109,6 +106,25 @@ class AppModule(private val app: Application) {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .build()
             .create(ProfileApi::class.java)
+    }
+
+    //Since ROOM DATA
+    @Provides
+    @Singleton
+    fun sinceDBRepository(dao: SinceDAO, exec: Executor): SinceDBRepository {
+        return SinceDBRepositoryImpl(dao, exec)
+    }
+
+    @Provides
+    @Singleton
+    fun sinceDB(): SinceDB {
+        return Room.databaseBuilder(app, SinceDB::class.java, "since.db").build()
+    }
+
+    @Provides
+    @Singleton
+    fun sinceDAO(db: SinceDB): SinceDAO {
+        return db.sinceDAO()
     }
 
     //User ROOM DATA
