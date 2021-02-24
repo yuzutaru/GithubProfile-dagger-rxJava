@@ -5,13 +5,13 @@ import com.yuzu.githubprofile.model.data.UserData
 import io.reactivex.Single
 
 /**
- * Created by Yustar Pramudana on 19/02/2021
+ * Created by Yustar Pramudana on 24/02/2021
  */
 
 @Dao
-interface UserDAO {
-    @Query("SELECT * from UserData")
-    fun getAllUsers(): Single<List<UserData>>
+interface SinceDAO {
+    @Query("SELECT * from SinceData LIMIT :itemSize")
+    fun getAllUsers(itemSize: Int): Single<List<UserData>>
 
     @Query("SELECT * FROM UserData LIMIT 1")
     fun getUser(): Single<UserData>
