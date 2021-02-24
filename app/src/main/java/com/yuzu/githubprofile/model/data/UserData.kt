@@ -12,6 +12,7 @@ data class UserData (
     @PrimaryKey
     @SerializedName("id")
     var id: Int,
+    var sinceId: Int,
     @SerializedName("login")
     var login: String?,
     @SerializedName("node_id")

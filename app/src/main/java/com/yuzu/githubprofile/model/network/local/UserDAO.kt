@@ -10,8 +10,8 @@ import io.reactivex.Single
 
 @Dao
 interface UserDAO {
-    @Query("SELECT * from UserData")
-    fun getAllUsers(): Single<List<UserData>>
+    @Query("SELECT * from UserData WHERE sinceId = :since")
+    fun getAllUsers(since: Int): Single<List<UserData>>
 
     @Query("SELECT * FROM UserData LIMIT 1")
     fun getUser(): Single<UserData>

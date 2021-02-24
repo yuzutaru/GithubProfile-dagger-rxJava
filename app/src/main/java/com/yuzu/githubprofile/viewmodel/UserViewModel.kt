@@ -3,9 +3,7 @@ package com.yuzu.githubprofile.viewmodel
 import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,25 +12,18 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.bumptech.glide.Glide
 import com.yuzu.githubprofile.GithubProfileApplication
-import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.databinding.FragmentUserBinding
 import com.yuzu.githubprofile.databinding.ItemUserListBinding
-import com.yuzu.githubprofile.model.NoNetworkException
 import com.yuzu.githubprofile.model.Response
-import com.yuzu.githubprofile.model.Status
 import com.yuzu.githubprofile.model.data.UserData
 import com.yuzu.githubprofile.model.network.State
 import com.yuzu.githubprofile.model.network.datasource.UserDataSource
 import com.yuzu.githubprofile.model.network.datasource.UserDataSourceFactory
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
 import com.yuzu.githubprofile.model.network.repository.UserDBRepository
-import com.yuzu.githubprofile.utils.RETRY_DELAY
-import com.yuzu.githubprofile.utils.RETRY_MAX
 import com.yuzu.githubprofile.view.adapter.UserListPagedAdapter
 import com.yuzu.githubprofile.view.fragment.UserFragment
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -72,7 +63,7 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         profileRepository = appComponent.profileRepository()
         userDBRepository = appComponent.userDBRepository()
 
-        userDataSourceFactory = UserDataSourceFactory(profileRepository, compositeDisposable)
+        userDataSourceFactory = UserDataSourceFactory(profileRepository, userDBRepository, compositeDisposable)
         val config = PagedList.Config.Builder().setPageSize(pageSize).setInitialLoadSizeHint(pageSize).setEnablePlaceholders(false).build()
         userPagedList = LivePagedListBuilder(userDataSourceFactory, config).build()
     }
@@ -169,7 +160,7 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
             UserDataSource::state
     )
 
-    fun listIsEmpty(): Boolean {
+    private fun listIsEmpty(): Boolean {
         return userPagedList.value?.isEmpty() ?: true
     }
 

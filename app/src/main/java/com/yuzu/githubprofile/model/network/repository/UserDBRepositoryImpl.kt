@@ -10,8 +10,8 @@ import java.util.concurrent.Executor
  */
 
 class UserDBRepositoryImpl(private val dao: UserDAO, private val exec: Executor): UserDBRepository {
-    override fun getAllUsers(): Single<List<UserData>> {
-        return dao.getAllUsers()
+    override fun getAllUsers(since: Int): Single<List<UserData>> {
+        return dao.getAllUsers(since)
     }
 
     override fun getUser(): Single<UserData> {

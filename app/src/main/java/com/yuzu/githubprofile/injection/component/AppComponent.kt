@@ -6,7 +6,6 @@ import com.yuzu.githubprofile.model.network.api.ProfileApi
 import com.yuzu.githubprofile.model.network.local.*
 import com.yuzu.githubprofile.model.network.repository.ProfileDBRepository
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
-import com.yuzu.githubprofile.model.network.repository.SinceDBRepository
 import com.yuzu.githubprofile.model.network.repository.UserDBRepository
 import dagger.Component
 import javax.inject.Singleton
@@ -23,11 +22,6 @@ interface AppComponent {
     //Profile API
     fun profileRepository(): ProfileRepository
     fun profileApi(): ProfileApi
-
-    //Since ROOM Data
-    fun sinceDBRepository(): SinceDBRepository
-    fun sinceDB(): SinceDB
-    fun sinceDAO(): SinceDAO
 
     //User ROOM DATA
     fun userDBRepository(): UserDBRepository

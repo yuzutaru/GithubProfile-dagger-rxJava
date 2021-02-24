@@ -9,6 +9,6 @@ import io.reactivex.Single
  */
 
 interface ProfileRepository {
-    fun userList(since: String): Single<List<UserData>>
+    fun userList(since: Int): Single<List<UserData>>
     fun userDetail(username: String): Single<ProfileData>
 }

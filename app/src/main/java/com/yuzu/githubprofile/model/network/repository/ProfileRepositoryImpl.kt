@@ -10,7 +10,7 @@ import io.reactivex.Single
  */
 
 class ProfileRepositoryImpl(private val api: ProfileApi): ProfileRepository {
-    override fun userList(since: String): Single<List<UserData>> {
+    override fun userList(since: Int): Single<List<UserData>> {
         return api.userList(since)
     }
 

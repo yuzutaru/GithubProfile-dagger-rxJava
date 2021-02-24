@@ -108,25 +108,6 @@ class AppModule(private val app: Application) {
             .create(ProfileApi::class.java)
     }
 
-    //Since ROOM DATA
-    @Provides
-    @Singleton
-    fun sinceDBRepository(dao: SinceDAO, exec: Executor): SinceDBRepository {
-        return SinceDBRepositoryImpl(dao, exec)
-    }
-
-    @Provides
-    @Singleton
-    fun sinceDB(): SinceDB {
-        return Room.databaseBuilder(app, SinceDB::class.java, "since.db").build()
-    }
-
-    @Provides
-    @Singleton
-    fun sinceDAO(db: SinceDB): SinceDAO {
-        return db.sinceDAO()
-    }
-
     //User ROOM DATA
     @Provides
     @Singleton

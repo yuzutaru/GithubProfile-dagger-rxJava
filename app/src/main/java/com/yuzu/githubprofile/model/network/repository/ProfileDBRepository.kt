@@ -1,8 +1,5 @@
 package com.yuzu.githubprofile.model.network.repository
 
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
 import com.yuzu.githubprofile.model.data.ProfileData
 import io.reactivex.Single
 

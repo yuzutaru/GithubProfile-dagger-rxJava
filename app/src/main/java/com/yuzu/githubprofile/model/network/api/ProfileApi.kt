@@ -15,7 +15,7 @@ interface ProfileApi {
      * User List
      * */
     @GET(value = "users")
-    fun userList(@Query("since") since: String): Single<List<UserData>>
+    fun userList(@Query("since") since: Int): Single<List<UserData>>
 
     /**
      * User Detail
