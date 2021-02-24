@@ -1,5 +1,6 @@
 package com.yuzu.githubprofile.model.network.datasource
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.yuzu.githubprofile.model.data.UserData
@@ -63,14 +64,15 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
                         RETRY_DELAY.toInt()
                     )
                 )
-                .subscribe({ response ->
-                    updateState(State.DONE)
-                    for (i in response.indices) {
-                        response[i].sinceId = params.key
-                    }
-                    userDBRepository.insert(response)
-                    callback.onResult(response, params.key + 1)
-                },
+                .subscribe(
+                    { response ->
+                        updateState(State.DONE)
+                        for (i in response.indices) {
+                            response[i].sinceId = params.key
+                        }
+                        userDBRepository.insert(response)
+                        callback.onResult(response, params.key + 1)
+                    },
                     {
                         userAfter(params.key, params, callback)
                     }
@@ -133,9 +135,11 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
                 .subscribe(
                     {   response ->
                         if (!response.isNullOrEmpty()) {
+                            Log.e("UserAfter", "response NOT NULL OR EMPTY")
                             updateState(State.DONE)
                             callback.onResult(response, params.key + 1)
                         } else {
+                            Log.e("UserAfter", "response IS NULL OR EMPTY")
                             updateState(State.ERROR)
                             setRetry(Action {loadAfter(params, callback)})
                         }

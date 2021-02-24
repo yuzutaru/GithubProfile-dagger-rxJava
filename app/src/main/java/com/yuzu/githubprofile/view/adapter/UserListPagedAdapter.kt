@@ -1,7 +1,5 @@
 package com.yuzu.githubprofile.view.adapter
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedList
@@ -38,36 +36,19 @@ class UserListPagedAdapter(private val viewModel: UserViewModel, private val ret
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.item_user_list, parent, false)
+        val skeleton = inflater.inflate(R.layout.skeleton_item_user_list, parent, false)
 
-        return if (viewType == DATA_VIEW_TYPE) UserListPagedViewHolder(viewModel, view).create(parent) else SkeletonUserListViewHolder.create(retry, parent)
+        return if (viewType == DATA_VIEW_TYPE) UserListPagedViewHolder(viewModel, view).create(parent) else UserListSkeletonViewHolder(skeleton).create(retry, parent)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == DATA_VIEW_TYPE)
             (holder as UserListPagedViewHolder).bind(getItem(position))
-        else (holder as SkeletonUserListViewHolder).bind(state)
+        else (holder as UserListSkeletonViewHolder).bind(state)
     }
 
     override fun getItemViewType(position: Int): Int {
         return if (position < super.getItemCount()) DATA_VIEW_TYPE else FOOTER_VIEW_TYPE
-    }
-
-    override fun submitList(pagedList: PagedList<UserData>?) {
-        lateinit var newPagedList: PagedList<UserData>
-        if (pagedList != null) {
-            if (pagedList.size > 5) {
-                for (i in pagedList.indices) {
-                    newPagedList.add(i, pagedList[i])
-                }
-
-                super.submitList(newPagedList)
-
-            } else {
-                super.submitList(pagedList)
-            }
-        } else {
-            super.submitList(pagedList)
-        }
     }
 
     override fun getItemCount(): Int {
