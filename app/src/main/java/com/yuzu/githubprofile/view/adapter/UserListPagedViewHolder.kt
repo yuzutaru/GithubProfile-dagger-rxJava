@@ -22,16 +22,10 @@ class UserListPagedViewHolder(private val viewModel: UserViewModel, view: View):
         return UserListPagedViewHolder(viewModel, view)
     }
 
-    /*companion object {
-        fun create(parent: ViewGroup): UserListPagedViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user_list, parent, false)
-            return UserListPagedViewHolder(view)
-        }
-    }*/
-
-    fun bind(data: UserData?) {
+    fun bind(i: Int, data: UserData?) {
         if (data != null) {
-            viewModel!!.setImage(data, itemView, binding)
+            viewModel.setImage(i, data, itemView, binding)
+            viewModel.setNote(binding, data)
 
             binding.login.text = data.login
             binding.repos.text = data.reposUrl

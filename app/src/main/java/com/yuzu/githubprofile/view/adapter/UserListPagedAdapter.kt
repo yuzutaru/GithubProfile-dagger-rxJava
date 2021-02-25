@@ -43,7 +43,7 @@ class UserListPagedAdapter(private val viewModel: UserViewModel, private val ret
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == DATA_VIEW_TYPE)
-            (holder as UserListPagedViewHolder).bind(getItem(position))
+            (holder as UserListPagedViewHolder).bind(position, getItem(position))
         else (holder as UserListSkeletonViewHolder).bind(state)
     }
 

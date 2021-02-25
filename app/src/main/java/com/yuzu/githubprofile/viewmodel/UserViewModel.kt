@@ -4,6 +4,7 @@ import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
@@ -22,6 +23,7 @@ import com.yuzu.githubprofile.model.data.UserData
 import com.yuzu.githubprofile.model.network.State
 import com.yuzu.githubprofile.model.network.datasource.UserDataSource
 import com.yuzu.githubprofile.model.network.datasource.UserDataSourceFactory
+import com.yuzu.githubprofile.model.network.repository.NotesDBRepository
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
 import com.yuzu.githubprofile.model.network.repository.UserDBRepository
 import com.yuzu.githubprofile.view.adapter.UserListPagedAdapter
@@ -29,6 +31,8 @@ import com.yuzu.githubprofile.view.fragment.UserFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -48,6 +52,7 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
     private val profileRepository: ProfileRepository
     private val userDBRepository: UserDBRepository
     private val userDataSourceFactory: UserDataSourceFactory
+    private val notesDBRepository: NotesDBRepository
 
     val login = MutableLiveData<String>()
     fun loginDataLive(): LiveData<String> = login
@@ -62,6 +67,7 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         val appComponent = GithubProfileApplication.instance.getAppComponent()
         profileRepository = appComponent.profileRepository()
         userDBRepository = appComponent.userDBRepository()
+        notesDBRepository = appComponent.notesDBRepository()
 
         userDataSourceFactory = UserDataSourceFactory(profileRepository, userDBRepository, compositeDisposable)
         val config = PagedList.Config.Builder().setPageSize(pageSize).setInitialLoadSizeHint(pageSize).setEnablePlaceholders(false).build()
@@ -73,19 +79,18 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         super.onCleared()
     }
 
-    fun setImage(data: UserData, itemView: View, binding: ItemUserListBinding) {
-        Glide.with(itemView).load(data.avatarUrl).into(binding.avatar)
+    fun setImage(i: Int, data: UserData, itemView: View, binding: ItemUserListBinding) {
 
-        /*if ((i + 1).rem(4) == 0 && i > 0 && (i + 1) < data.size) {
+        if ((i + 1).rem(4) == 0 && i > 0) {
             doAsync {
-                var bitmap = getBitmapFromURL(data[i].avatarUrl)
+                var bitmap = getBitmapFromURL(data.avatarUrl)
                 bitmap = invertBitmap(bitmap!!)
                 uiThread { Glide.with(itemView).load(bitmap).into(binding.avatar) }
             }.isDone
 
         } else {
-            Glide.with(itemView).load(data[i].avatarUrl).into(binding.avatar)
-        }*/
+            Glide.with(itemView).load(data.avatarUrl).into(binding.avatar)
+        }
     }
 
     private fun getBitmapFromURL(src: String?): Bitmap? {
@@ -110,13 +115,31 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
 
         for (i in 0 until length) {
             if (array[i] == 0xff000000.toInt()) {
+                Log.e(LOG_TAG, "INVERT")
                 array[i] = 0xffffffff.toInt()
             }
         }
 
-        secondaryBitmap.setPixels(array, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+        secondaryBitmap.setPixels(array, 0, secondaryBitmap.width, 0, 0, secondaryBitmap.width, secondaryBitmap.height)
 
         return secondaryBitmap
+    }
+
+    fun setNote(binding: ItemUserListBinding, data: UserData) {
+        if (data.login != null) {
+            compositeDisposable.add(
+                notesDBRepository.get(data.login!!)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        { response ->
+                            binding.notes.visibility = View.VISIBLE
+                        }, {
+                            binding.notes.visibility = View.GONE
+                        }
+                    )
+            )
+        }
     }
 
     fun itemClicked(data: String?) {
