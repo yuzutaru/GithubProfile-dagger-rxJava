@@ -14,6 +14,7 @@ import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yuzu.githubprofile.GithubProfileApplication
 import com.yuzu.githubprofile.databinding.FragmentUserBinding
 import com.yuzu.githubprofile.databinding.ItemUserListBinding
@@ -100,11 +101,11 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
             doAsync {
                 var bitmap = getBitmapFromURL(data.avatarUrl)
                 bitmap = invertBitmap(bitmap!!)
-                uiThread { Glide.with(fragment.requireActivity()).load(bitmap).into(binding.avatar) }
+                uiThread { Glide.with(fragment.requireActivity()).load(bitmap).diskCacheStrategy(DiskCacheStrategy.DATA).into(binding.avatar) }
             }.isDone
 
         } else {
-            Glide.with(fragment.requireActivity()).load(data.avatarUrl).into(binding.avatar)
+            Glide.with(fragment.requireActivity()).load(data.avatarUrl).diskCacheStrategy(DiskCacheStrategy.DATA).into(binding.avatar)
         }
     }
 

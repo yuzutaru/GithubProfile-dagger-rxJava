@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yuzu.githubprofile.GithubProfileApplication
 import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.model.NoNetworkException
@@ -134,7 +135,7 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
                     getNotes(profileData.value!!.login!!)
                     profileDBRepository.insert(profileData.value!!)
 
-                    Glide.with(fragment).load(profileData.value!!.avatarUrl).into(fragment.binding.avatar)
+                    Glide.with(fragment).load(profileData.value!!.avatarUrl).diskCacheStrategy(DiskCacheStrategy.DATA).into(fragment.binding.avatar)
                     loading.value = false
                 }
 
@@ -202,7 +203,7 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
                     profileData.value = response.data
                     getNotes(profileData.value!!.login!!)
 
-                    Glide.with(fragment).load(profileData.value!!.avatarUrl).into(fragment.binding.avatar)
+                    Glide.with(fragment).load(profileData.value!!.avatarUrl).diskCacheStrategy(DiskCacheStrategy.DATA).into(fragment.binding.avatar)
                     loading.value = false
 
                     //Update profile

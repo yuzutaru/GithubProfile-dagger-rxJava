@@ -21,6 +21,7 @@ class GithubProfileApplication: Application() {
     companion object {
         lateinit var instance: GithubProfileApplication private set
     }
+
     operator fun get(context: Context): GithubProfileApplication {
         return context.applicationContext as GithubProfileApplication
     }
@@ -30,14 +31,11 @@ class GithubProfileApplication: Application() {
         MultiDex.install(this)
     }
 
-
     @Suppress("DEPRECATION")
     override fun onCreate() {
         super.onCreate()
         instance = this
-        //
         // DI
-        //
         component = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()
