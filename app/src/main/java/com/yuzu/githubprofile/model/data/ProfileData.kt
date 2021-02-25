@@ -74,5 +74,5 @@ data class ProfileData(
     @SerializedName("created_at")
     var createdAt: String?,
     @SerializedName("updated_at")
-    var updatedAt: String?
+    var updatedAt: String?,
 ): Parcelable

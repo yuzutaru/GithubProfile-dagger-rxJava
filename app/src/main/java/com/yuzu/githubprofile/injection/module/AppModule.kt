@@ -146,6 +146,24 @@ class AppModule(private val app: Application) {
         return db.profileDAO()
     }
 
+    @Provides
+    @Singleton
+    fun notesDBRepository(dao: NotesDAO, exec: Executor): NotesDBRepository {
+        return NotesDBRepositoryImpl(dao, exec)
+    }
+
+    @Provides
+    @Singleton
+    fun notesDB(): NotesDB {
+        return Room.databaseBuilder(app, NotesDB::class.java, "notes.db").build()
+    }
+
+    @Provides
+    @Singleton
+    fun notesDAO(db: NotesDB): NotesDAO {
+        return db.notesDAO()
+    }
+
 
     @Singleton
     @Provides

@@ -45,4 +45,6 @@
     <color name="md_grey_600">#4F4F4F</color>
     <color name="md_grey_800">#464B4A</color>
     <color name="md_grey_850">#2C2C2C</color>
+
+    <color name="md_green_500">#008C51</color>
 </resources>

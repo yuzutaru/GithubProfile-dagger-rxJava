@@ -4,6 +4,7 @@ import android.app.Application
 import com.yuzu.githubprofile.injection.module.AppModule
 import com.yuzu.githubprofile.model.network.api.ProfileApi
 import com.yuzu.githubprofile.model.network.local.*
+import com.yuzu.githubprofile.model.network.repository.NotesDBRepository
 import com.yuzu.githubprofile.model.network.repository.ProfileDBRepository
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
 import com.yuzu.githubprofile.model.network.repository.UserDBRepository
@@ -32,4 +33,9 @@ interface AppComponent {
     fun profileDBRepository(): ProfileDBRepository
     fun profileDB(): ProfileDB
     fun profileDAO(): ProfileDAO
+
+    //Notes ROOM DATA
+    fun notesDBRepository(): NotesDBRepository
+    fun notesDB(): NotesDB
+    fun notesDAO(): NotesDAO
 }

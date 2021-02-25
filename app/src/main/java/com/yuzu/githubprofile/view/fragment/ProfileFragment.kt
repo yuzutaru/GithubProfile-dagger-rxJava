@@ -39,6 +39,7 @@ class ProfileFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        saveOnClickListener()
         backOnClickListener()
         onBackPressed()
 
@@ -46,6 +47,12 @@ class ProfileFragment: Fragment() {
         viewModel.getLogin(arguments)
         viewModel.profileDBDataLive().observe(viewLifecycleOwner, { viewModel.profileDBRes(it)})
         viewModel.profileDataLive().observe(viewLifecycleOwner, { viewModel.profileRes(it) })
+    }
+
+    private fun saveOnClickListener() {
+        binding.save.setOnClickListener {
+            viewModel.saveNotes()
+        }
     }
 
     private fun backOnClickListener() {
