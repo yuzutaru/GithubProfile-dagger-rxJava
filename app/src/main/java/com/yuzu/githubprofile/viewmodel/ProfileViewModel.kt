@@ -4,6 +4,7 @@ import android.app.Application
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -89,7 +90,7 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
     fun getLogin(arguments: Bundle?) {
         if (arguments != null) {
             login = arguments.get(ARGUMENT_LOGIN).toString()
-            profile(login)
+            profileDB(login)
         }
     }
 
@@ -111,7 +112,12 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
                                 res -> profile.value = Response.succeed(res)
                         },
                         {
-                            profileDB(login)
+                            profile.value = when (it) {
+                                is NoNetworkException -> {
+                                    Response.networkLost()
+                                }
+                                else -> Response.error(it)
+                            }
                         }
                     )
             )
@@ -138,6 +144,8 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
                         if (response.error.message!!.contains("Unable to resolve host", true)) {
                             Log.e(LOG_TAG, "errorMessage : ${fragment.resources.getString(R.string.no_connection)}")
                             Toast.makeText(fragment.context, fragment.resources.getString(R.string.no_connection), Toast.LENGTH_LONG).show()
+
+                            loading.value = false
 
                         } else {
                             Log.e(LOG_TAG, "errorMessage : ${response.error.message}")
@@ -178,12 +186,7 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
                                 res -> profileDB.value = Response.succeed(res)
                         },
                         {
-                            profileDB.value = when (it) {
-                                is NoNetworkException -> {
-                                    Response.networkLost()
-                                }
-                                else -> Response.error(it)
-                            }
+                            profile(login)
                         }
                     )
             )
@@ -202,9 +205,11 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
                     Glide.with(fragment).load(profileData.value!!.avatarUrl).into(fragment.binding.avatar)
                     loading.value = false
 
+                    //Update profile
+                    updateProfile(login)
+
                 } else {
-                    Log.e(LOG_TAG, "errorMessage : ${fragment.resources.getString(R.string.no_connection)}")
-                    Toast.makeText(fragment.context, fragment.resources.getString(R.string.no_connection), Toast.LENGTH_LONG).show()
+                    profile(login)
                 }
 
             } else if (response.status == Status.FAILED) {
@@ -239,6 +244,31 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
             } else {
                 Toast.makeText(fragment.context, String.format("Connection turned OFF"), Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun updateProfile(login: String?) {
+        loading.value = true
+        if (login != null) {
+            compositeDisposable.add(
+                profileRepository.userDetail(login)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .retryWhen(
+                        RetryWithDelay(
+                            RETRY_MAX,
+                            RETRY_DELAY.toInt()
+                        )
+                    )
+                    .subscribe(
+                        { res ->
+                            profileDBRepository.insert(res)
+                        },
+                        {
+
+                        }
+                    )
+            )
         }
     }
 }
