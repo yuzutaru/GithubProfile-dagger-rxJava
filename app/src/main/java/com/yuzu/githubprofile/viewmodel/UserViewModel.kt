@@ -100,11 +100,11 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
             doAsync {
                 var bitmap = getBitmapFromURL(data.avatarUrl)
                 bitmap = invertBitmap(bitmap!!)
-                uiThread { Glide.with(itemView).load(bitmap).into(binding.avatar) }
+                uiThread { Glide.with(fragment.requireActivity()).load(bitmap).into(binding.avatar) }
             }.isDone
 
         } else {
-            Glide.with(itemView).load(data.avatarUrl).into(binding.avatar)
+            Glide.with(fragment.requireActivity()).load(data.avatarUrl).into(binding.avatar)
         }
     }
 

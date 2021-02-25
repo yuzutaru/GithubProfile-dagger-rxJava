@@ -13,6 +13,12 @@ class MainActivity: BaseViewActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        replaceFragment(R.id.main_content, UserFragment(), null)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_content,
+                            UserFragment()
+                    ).commit()
+        }
     }
 }
