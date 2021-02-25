@@ -28,24 +28,19 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, UserData>) {
         updateState(State.LOADING)
         compositeDisposable.add(
-            profileRepository.userList(0)
-                .retryWhen(
-                    RetryWithDelay(
-                        RETRY_MAX,
-                        RETRY_DELAY.toInt()
-                    )
-                )
+            userDBRepository.getAllUsers(0)
                 .subscribe(
                 { response ->
-                    updateState(State.DONE)
-                    for (i in response.indices) {
-                        response[i].sinceId = 0
+                    if (!response.isNullOrEmpty()) {
+                        updateState(State.DONE)
+                        callback.onResult(response,
+                            null,
+                            response[response.size - 1].id
+                        )
+
+                    } else {
+                        userInitial(0, params, callback)
                     }
-                    userDBRepository.insert(response)
-                    callback.onResult(response,
-                        null,
-                        response[response.size - 1].id
-                    )
                 },
                 {
                     userInitial(0, params, callback)
@@ -57,21 +52,16 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, UserData>) {
         updateState(State.LOADING)
         compositeDisposable.add(
-            profileRepository.userList(params.key)
-                .retryWhen(
-                    RetryWithDelay(
-                        RETRY_MAX,
-                        RETRY_DELAY.toInt()
-                    )
-                )
+            userDBRepository.getAllUsers(params.key)
                 .subscribe(
                     { response ->
-                        updateState(State.DONE)
-                        for (i in response.indices) {
-                            response[i].sinceId = params.key
+                        if (!response.isNullOrEmpty()) {
+                            updateState(State.DONE)
+                            callback.onResult(response, params.key + 1)
+
+                        } else {
+                            userAfter(params.key, params, callback)
                         }
-                        userDBRepository.insert(response)
-                        callback.onResult(response, params.key + 1)
                     },
                     {
                         userAfter(params.key, params, callback)
@@ -103,13 +93,23 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
 
     private fun userInitial(since: Int, params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, UserData>) {
         compositeDisposable.add(
-            userDBRepository.getAllUsers(since)
+            profileRepository.userList(since)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .retryWhen(
+                    RetryWithDelay(
+                        RETRY_MAX,
+                        RETRY_DELAY.toInt()
+                    )
+                )
                 .subscribe(
                     {   response ->
                         if (!response.isNullOrEmpty()) {
                             updateState(State.DONE)
+                            for (i in response.indices) {
+                                response[i].sinceId = 0
+                            }
+                            userDBRepository.insert(response)
                             callback.onResult(response,
                                 null,
                                 response[response.size - 1].id
@@ -129,13 +129,23 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
 
     private fun userAfter(since: Int, params: LoadParams<Int>, callback: LoadCallback<Int, UserData>) {
         compositeDisposable.add(
-            userDBRepository.getAllUsers(since)
+            profileRepository.userList(since)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .retryWhen(
+                    RetryWithDelay(
+                        RETRY_MAX,
+                        RETRY_DELAY.toInt()
+                    )
+                )
                 .subscribe(
                     {   response ->
                         if (!response.isNullOrEmpty()) {
                             updateState(State.DONE)
+                            for (i in response.indices) {
+                                response[i].sinceId = params.key
+                            }
+                            userDBRepository.insert(response)
                             callback.onResult(response, params.key + 1)
                         } else {
                             updateState(State.ERROR)

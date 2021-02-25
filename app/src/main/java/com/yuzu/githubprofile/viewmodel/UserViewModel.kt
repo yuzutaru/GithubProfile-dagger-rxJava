@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide
 import com.yuzu.githubprofile.GithubProfileApplication
 import com.yuzu.githubprofile.databinding.FragmentUserBinding
 import com.yuzu.githubprofile.databinding.ItemUserListBinding
-import com.yuzu.githubprofile.model.Response
 import com.yuzu.githubprofile.model.data.ConnectionLiveData
 import com.yuzu.githubprofile.model.data.ConnectionModel
 import com.yuzu.githubprofile.model.data.UserData
