@@ -37,6 +37,7 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
                             null,
                             response[response.size - 1].id
                         )
+                        updateUser(0)
 
                     } else {
                         userInitial(0, params, callback)
@@ -58,6 +59,7 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
                         if (!response.isNullOrEmpty()) {
                             updateState(State.DONE)
                             callback.onResult(response, params.key + 1)
+                            updateUser(params.key)
 
                         } else {
                             userAfter(params.key, params, callback)
@@ -155,6 +157,27 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
                     }, {
                         updateState(State.ERROR)
                         setRetry(Action {loadAfter(params, callback)})
+                    }
+                )
+        )
+    }
+
+    fun updateUser(since: Int) {
+        compositeDisposable.add(
+            profileRepository.userList(since)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { response ->
+                        if (!response.isNullOrEmpty()) {
+                            for (i in response.indices) {
+                                response[i].sinceId = since
+                            }
+                            userDBRepository.insert(response)
+                        }
+                    },
+                    {
+
                     }
                 )
         )
