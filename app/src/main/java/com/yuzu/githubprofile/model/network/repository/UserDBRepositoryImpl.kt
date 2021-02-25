@@ -18,6 +18,10 @@ class UserDBRepositoryImpl(private val dao: UserDAO, private val exec: Executor)
         return dao.getUser()
     }
 
+    override fun getUsersBySearch(search: String): Single<List<UserData>> {
+        return dao.getUsersBySearch(search)
+    }
+
     override fun insert(userData: UserData) {
         exec.execute {
             dao.insert(userData)

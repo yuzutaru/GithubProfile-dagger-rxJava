@@ -2,6 +2,7 @@ package com.yuzu.githubprofile.model.network.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.yuzu.githubprofile.model.data.NotesData
 import com.yuzu.githubprofile.model.data.UserData
 
 /**

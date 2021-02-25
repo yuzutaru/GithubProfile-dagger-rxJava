@@ -21,6 +21,7 @@ import com.yuzu.githubprofile.model.data.ConnectionLiveData
 import com.yuzu.githubprofile.model.data.ConnectionModel
 import com.yuzu.githubprofile.model.data.UserData
 import com.yuzu.githubprofile.model.network.State
+import com.yuzu.githubprofile.model.network.datasource.UserDBDataSourceFactory
 import com.yuzu.githubprofile.model.network.datasource.UserDataSource
 import com.yuzu.githubprofile.model.network.datasource.UserDataSourceFactory
 import com.yuzu.githubprofile.model.network.repository.NotesDBRepository
@@ -51,11 +52,14 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
     private val compositeDisposable = CompositeDisposable()
     private val profileRepository: ProfileRepository
     private val userDBRepository: UserDBRepository
-    private val userDataSourceFactory: UserDataSourceFactory
     private val notesDBRepository: NotesDBRepository
+    private val userDataSourceFactory: UserDataSourceFactory
+    private var userDBDataSourceFactory: UserDBDataSourceFactory? = null
 
     val login = MutableLiveData<String>()
     fun loginDataLive(): LiveData<String> = login
+
+    var search = MutableLiveData<String>()
 
     var userPagedList: LiveData<PagedList<UserData>>
     lateinit var connectionLiveData: ConnectionLiveData
@@ -71,7 +75,18 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
 
         userDataSourceFactory = UserDataSourceFactory(profileRepository, userDBRepository, compositeDisposable)
         val config = PagedList.Config.Builder().setPageSize(pageSize).setInitialLoadSizeHint(pageSize).setEnablePlaceholders(false).build()
-        userPagedList = LivePagedListBuilder(userDataSourceFactory, config).build()
+        //userPagedList = LivePagedListBuilder(userDataSourceFactory, config).build()
+
+        userPagedList = Transformations.switchMap(search) { input ->
+            return@switchMap if (input == null || input.equals("") || input.equals("%%")) {
+                //check if the current value is empty load all data else search
+                LivePagedListBuilder(userDataSourceFactory, config).build()
+            } else {
+                userDBDataSourceFactory = UserDBDataSourceFactory(userDBRepository, compositeDisposable, input)
+                System.out.println("CURRENTINPUT: $input")
+                LivePagedListBuilder(userDBDataSourceFactory!!, config).build()
+            }
+        }
     }
 
     override fun onCleared() {
@@ -128,16 +143,16 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
     fun setNote(binding: ItemUserListBinding, data: UserData) {
         if (data.login != null) {
             compositeDisposable.add(
-                notesDBRepository.get(data.login!!)
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                        { response ->
-                            binding.notes.visibility = View.VISIBLE
-                        }, {
-                            binding.notes.visibility = View.GONE
-                        }
-                    )
+                    notesDBRepository.get(data.login!!)
+                            .subscribeOn(Schedulers.newThread())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    { response ->
+                                        binding.notes.visibility = View.VISIBLE
+                                    }, {
+                                binding.notes.visibility = View.GONE
+                            }
+                            )
             )
         }
     }

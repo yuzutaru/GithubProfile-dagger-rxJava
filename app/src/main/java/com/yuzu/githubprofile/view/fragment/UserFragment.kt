@@ -1,8 +1,9 @@
 package com.yuzu.githubprofile.view.fragment
 
 import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.databinding.FragmentUserBinding
 import com.yuzu.githubprofile.model.data.ConnectionLiveData
@@ -18,6 +20,7 @@ import com.yuzu.githubprofile.utils.ARGUMENT_LOGIN
 import com.yuzu.githubprofile.view.activity.MainActivity
 import com.yuzu.githubprofile.view.adapter.UserListPagedAdapter
 import com.yuzu.githubprofile.viewmodel.UserViewModel
+import java.util.*
 
 
 /**
@@ -49,6 +52,7 @@ class UserFragment: Fragment() {
 
         initAdapter()
         initState()
+        searchTextChangeListener()
         onBackPressed()
 
         viewModel.fragment = this
@@ -61,7 +65,20 @@ class UserFragment: Fragment() {
     private fun initAdapter() {
         userListAdapter = UserListPagedAdapter(viewModel) { viewModel.retry() }
         binding.recyclerView.adapter = userListAdapter
-        viewModel.userPagedList.observe(viewLifecycleOwner, { userListAdapter.submitList(it) })
+        viewModel.search.value = ""
+        viewModel.userPagedList.observe(viewLifecycleOwner, {
+            try {
+                Log.e("Paging ", "PageAll" + it.size)
+                try {
+                    //to prevent animation recyclerview when change the list
+                    binding.recyclerView.setItemAnimator(null)
+                    (Objects.requireNonNull(binding.recyclerView.getItemAnimator()) as SimpleItemAnimator).supportsChangeAnimations = false
+                } catch (e: Exception) {
+                }
+                userListAdapter.submitList(it)
+            } catch (e: Exception) {
+            }
+        })
     }
 
     private fun initState() {
@@ -69,6 +86,22 @@ class UserFragment: Fragment() {
             viewModel.recyclerViewVisibility(binding, state, userListAdapter)
             //footerBinding.progressBar.visibility = if (viewModel.listIsEmpty() && state == State.LOADING) View.VISIBLE else View.GONE
             //footerBinding.txtError.visibility = if (viewModel.listIsEmpty() && state == State.ERROR) View.VISIBLE else View.GONE
+        })
+    }
+
+    private fun searchTextChangeListener() {
+        binding.search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                viewModel.search.value = p0.toString()
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                //viewModel.search.value = p0.toString()
+            }
         })
     }
 

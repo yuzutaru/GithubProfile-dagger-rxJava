@@ -16,6 +16,9 @@ interface UserDAO {
     @Query("SELECT * FROM UserData LIMIT 1")
     fun getUser(): Single<UserData>
 
+    @Query("SELECT * FROM UserData WHERE login like :search||'%'")
+    fun getUsersBySearch(search: String): Single<List<UserData>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(userData: UserData)
 
