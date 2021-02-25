@@ -38,7 +38,7 @@ class UserListPagedAdapter(private val viewModel: UserViewModel, private val ret
         val view = inflater.inflate(R.layout.item_user_list, parent, false)
         val skeleton = inflater.inflate(R.layout.skeleton_item_user_list, parent, false)
 
-        return if (viewType == DATA_VIEW_TYPE) UserListPagedViewHolder(viewModel, view).create(parent) else UserListSkeletonViewHolder(skeleton).create(retry, parent)
+        return if (viewType == DATA_VIEW_TYPE) UserListPagedViewHolder(viewModel, view).create(parent) else UserListSkeletonViewHolder(skeleton).create(parent)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

@@ -94,7 +94,7 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         super.onCleared()
     }
 
-    fun setImage(i: Int, data: UserData, itemView: View, binding: ItemUserListBinding) {
+    fun setImage(i: Int, data: UserData, binding: ItemUserListBinding) {
 
         if ((i + 1).rem(4) == 0 && i > 0) {
             doAsync {
@@ -147,7 +147,7 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    { response ->
+                                    { _ ->
                                         binding.notes.visibility = View.VISIBLE
                                     }, {
                                 binding.notes.visibility = View.GONE
@@ -186,7 +186,7 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         }
 
         if (!listIsEmpty()) {
-            userListAdapter.setState(state ?: State.DONE)
+            userListAdapter.setState(state)
         }
     }
 

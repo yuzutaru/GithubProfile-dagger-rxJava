@@ -24,7 +24,7 @@ class UserListPagedViewHolder(private val viewModel: UserViewModel, view: View):
 
     fun bind(i: Int, data: UserData?) {
         if (data != null) {
-            viewModel.setImage(i, data, itemView, binding)
+            viewModel.setImage(i, data, binding)
             viewModel.setNote(binding, data)
 
             binding.login.text = data.login

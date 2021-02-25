@@ -15,7 +15,7 @@ import com.yuzu.githubprofile.model.network.State
 class UserListSkeletonViewHolder(view: View): RecyclerView.ViewHolder(view) {
     private val binding = SkeletonItemUserListBinding.bind(view)
 
-    fun create(retry: () -> Unit, parent: ViewGroup): UserListSkeletonViewHolder {
+    fun create(parent: ViewGroup): UserListSkeletonViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.skeleton_item_user_list, parent, false)
         return UserListSkeletonViewHolder(view)
     }
