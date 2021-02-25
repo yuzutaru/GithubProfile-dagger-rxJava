@@ -11,5 +11,5 @@
     <string name="blog">Blog</string>
     <string name="notes">Notes</string>
     <string name="save">Save</string>
-    <string name="error_message">Error !! Tap to retry.</string>
+    <string name="error_message">Error !! Please connect to the Internet.</string>
 </resources>

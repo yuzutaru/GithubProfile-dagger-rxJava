@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.databinding.FragmentProfileBinding
+import com.yuzu.githubprofile.model.data.ConnectionLiveData
 import com.yuzu.githubprofile.view.activity.MainActivity
 import com.yuzu.githubprofile.viewmodel.ProfileViewModel
 
@@ -44,6 +45,9 @@ class ProfileFragment: Fragment() {
         onBackPressed()
 
         viewModel.fragment = this
+        viewModel.connectionLiveData = ConnectionLiveData(requireContext())
+
+        viewModel.connectionLiveData.observe(viewLifecycleOwner, { connection -> viewModel.connection(connection) })
         viewModel.getLogin(arguments)
         viewModel.profileDBDataLive().observe(viewLifecycleOwner, { viewModel.profileDBRes(it)})
         viewModel.profileDataLive().observe(viewLifecycleOwner, { viewModel.profileRes(it) })

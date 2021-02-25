@@ -1,6 +1,7 @@
 package com.yuzu.githubprofile.viewmodel
 
 import android.app.Application
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -13,6 +14,8 @@ import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.model.NoNetworkException
 import com.yuzu.githubprofile.model.Response
 import com.yuzu.githubprofile.model.Status
+import com.yuzu.githubprofile.model.data.ConnectionLiveData
+import com.yuzu.githubprofile.model.data.ConnectionModel
 import com.yuzu.githubprofile.model.data.NotesData
 import com.yuzu.githubprofile.model.data.ProfileData
 import com.yuzu.githubprofile.model.network.repository.NotesDBRepository
@@ -49,6 +52,7 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
     private var login = ""
     var profileData = MutableLiveData<ProfileData>()
     var notesData = MutableLiveData<NotesData>()
+    lateinit var connectionLiveData: ConnectionLiveData
 
     init {
         val appComponent = GithubProfileApplication.instance.getAppComponent()
@@ -206,8 +210,8 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
             } else if (response.status == Status.FAILED) {
                 if (response.error != null) {
                     Log.e(LOG_TAG, "errorMessage : ${response.error.message}")
-                    profile(login)
-                    //Toast.makeText(fragment.context, response.error.message, Toast.LENGTH_LONG).show()
+                    loading.value = false
+                    Toast.makeText(fragment.context, fragment.resources.getString(R.string.no_connection), Toast.LENGTH_LONG).show()
                 }
 
             } else if (response.status == Status.NO_CONNECTION) {
@@ -216,6 +220,25 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
             }
         } catch (e: Exception) {
             e.message?.let { Log.e(LOG_TAG, it) }
+        }
+    }
+
+    fun connection(connection: ConnectionModel?) {
+        if (connection != null) {
+            if (connection.isConnected) {
+                when (connection.type) {
+                    ConnectivityManager.TYPE_WIFI -> {
+                        Toast.makeText(fragment.context, String.format("Wifi turned ON"), Toast.LENGTH_SHORT).show()
+                        profile(login)
+                    }
+                    ConnectivityManager.TYPE_MOBILE -> {
+                        Toast.makeText(fragment.context, String.format("Mobile data turned ON"), Toast.LENGTH_SHORT).show()
+                        profile(login)
+                    }
+                }
+            } else {
+                Toast.makeText(fragment.context, String.format("Connection turned OFF"), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

@@ -3,7 +3,9 @@ package com.yuzu.githubprofile.viewmodel
 import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.ConnectivityManager
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +17,8 @@ import com.yuzu.githubprofile.GithubProfileApplication
 import com.yuzu.githubprofile.databinding.FragmentUserBinding
 import com.yuzu.githubprofile.databinding.ItemUserListBinding
 import com.yuzu.githubprofile.model.Response
+import com.yuzu.githubprofile.model.data.ConnectionLiveData
+import com.yuzu.githubprofile.model.data.ConnectionModel
 import com.yuzu.githubprofile.model.data.UserData
 import com.yuzu.githubprofile.model.network.State
 import com.yuzu.githubprofile.model.network.datasource.UserDataSource
@@ -29,6 +33,7 @@ import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
+
 /**
  * Created by Yustar Pramudana on 18/02/2021
  */
@@ -41,22 +46,16 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
     private val compositeDisposable = CompositeDisposable()
     private val profileRepository: ProfileRepository
     private val userDBRepository: UserDBRepository
-
-    private val user = MutableLiveData<Response<List<UserData>>>()
-    fun userDataLive(): LiveData<Response<List<UserData>>> = user
-
-    private val userDB = MutableLiveData<Response<List<UserData>>>()
-    fun userDBDataLive(): LiveData<Response<List<UserData>>> = userDB
+    private val userDataSourceFactory: UserDataSourceFactory
 
     val login = MutableLiveData<String>()
     fun loginDataLive(): LiveData<String> = login
 
-    var userList: List<UserData>? = null
-    private var itemClicked = false
-
-    private val userDataSourceFactory: UserDataSourceFactory
-    private val pageSize = 1
     var userPagedList: LiveData<PagedList<UserData>>
+    lateinit var connectionLiveData: ConnectionLiveData
+
+    private var itemClicked = false
+    private val pageSize = 1
 
     init {
         val appComponent = GithubProfileApplication.instance.getAppComponent()
@@ -165,126 +164,22 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
         return userPagedList.value?.isEmpty() ?: true
     }
 
-    /*fun getUser() {
-        loading.value = true
-
-        compositeDisposable.add(
-            profileRepository.userList("0")
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .retryWhen(
-                    RetryWithDelay(
-                        RETRY_MAX,
-                        RETRY_DELAY.toInt()
-                    )
-                )
-                .subscribe(
-                    { res ->
-                        user.value = Response.succeed(res)
-                    },
-                    {
-                        userDB()
+    fun connection(connection: ConnectionModel?) {
+        if (connection != null) {
+            if (connection.isConnected) {
+                when (connection.type) {
+                    ConnectivityManager.TYPE_WIFI -> {
+                        Toast.makeText(fragment.context, String.format("Wifi turned ON"), Toast.LENGTH_SHORT).show()
+                        retry()
                     }
-                )
-        )
-    }
-
-    fun userResponse(response: Response<List<UserData>>) {
-        try {
-            Log.d(LOG_TAG, "DATA STATUS = ${response.status}")
-
-            if (response.status == Status.SUCCEED) {
-                if (response.data != null) {
-                    userList = response.data
-                    userDBRepository.deleteAllAndInsertsList(userList!!)
-
-                    //fragment.setListUser()
+                    ConnectivityManager.TYPE_MOBILE -> {
+                        Toast.makeText(fragment.context, String.format("Mobile data turned ON"), Toast.LENGTH_SHORT).show()
+                        retry()
+                    }
                 }
-
-            } else if (response.status == Status.FAILED) {
-                if (response.error != null) {
-                    Log.e(LOG_TAG, "errorMessage : ${response.error.message}")
-                    Toast.makeText(fragment.context, response.error.message, Toast.LENGTH_LONG).show()
-                }
-
-            } else if (response.status == Status.NO_CONNECTION) {
-                Log.e(
-                    LOG_TAG,
-                    "errorMessage : ${fragment.resources.getString(R.string.no_connection)}"
-                )
-                Toast.makeText(
-                    fragment.context,
-                    fragment.resources.getString(R.string.no_connection),
-                    Toast.LENGTH_LONG
-                ).show()
+            } else {
+                Toast.makeText(fragment.context, String.format("Connection turned OFF"), Toast.LENGTH_SHORT).show()
             }
-        } catch (e: Exception) {
-            e.message?.let { Log.e(LOG_TAG, it) }
         }
     }
-
-    private fun userDB() {
-        loading.value = true
-        compositeDisposable.add(
-            userDBRepository.getAllUsers()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { res ->
-                        userDB.value = Response.succeed(res)
-                    },
-                    {
-                        userDB.value = when (it) {
-                            is NoNetworkException -> {
-                                Response.networkLost()
-                            }
-                            else -> Response.error(it)
-                        }
-                    }
-                )
-        )
-    }
-
-    fun userDBResponse(response: Response<List<UserData>>) {
-        try {
-            Log.d(LOG_TAG, "DATA STATUS = ${response.status}")
-
-            if (response.status == Status.SUCCEED) {
-                if (!response.data.isNullOrEmpty()) {
-                    userList = response.data
-                    //fragment.setListUser()
-
-                } else {
-                    Log.e(
-                        LOG_TAG,
-                        "errorMessage : ${fragment.resources.getString(R.string.no_connection)}"
-                    )
-                    Toast.makeText(
-                        fragment.context,
-                        fragment.resources.getString(R.string.no_connection),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-
-            } else if (response.status == Status.FAILED) {
-                if (response.error != null) {
-                    Log.e(LOG_TAG, "errorMessage : ${response.error.message}")
-                    Toast.makeText(fragment.context, response.error.message, Toast.LENGTH_LONG).show()
-                }
-
-            } else if (response.status == Status.NO_CONNECTION) {
-                Log.e(
-                    LOG_TAG,
-                    "errorMessage : ${fragment.resources.getString(R.string.no_connection)}"
-                )
-                Toast.makeText(
-                    fragment.context,
-                    fragment.resources.getString(R.string.no_connection),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        } catch (e: Exception) {
-            e.message?.let { Log.e(LOG_TAG, it) }
-        }
-    }*/
 }

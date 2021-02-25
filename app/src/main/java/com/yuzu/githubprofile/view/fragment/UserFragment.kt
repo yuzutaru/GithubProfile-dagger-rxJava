@@ -1,6 +1,7 @@
 package com.yuzu.githubprofile.view.fragment
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -10,14 +11,14 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.databinding.FragmentUserBinding
+import com.yuzu.githubprofile.model.data.ConnectionLiveData
 import com.yuzu.githubprofile.utils.ARGUMENT_LOGIN
 import com.yuzu.githubprofile.view.activity.MainActivity
-import com.yuzu.githubprofile.view.adapter.UserListAdapter
 import com.yuzu.githubprofile.view.adapter.UserListPagedAdapter
 import com.yuzu.githubprofile.viewmodel.UserViewModel
+
 
 /**
  * Created by Yustar Pramudana on 19/02/2021
@@ -51,34 +52,19 @@ class UserFragment: Fragment() {
         onBackPressed()
 
         viewModel.fragment = this
+        viewModel.connectionLiveData = ConnectionLiveData(requireContext())
 
-        /*viewModel.getUser()
-        viewModel.userDataLive().observe(viewLifecycleOwner, { viewModel.userResponse(it) })
-        viewModel.userDBDataLive().observe(viewLifecycleOwner, {viewModel.userDBResponse(it)})*/
+        viewModel.connectionLiveData.observe(viewLifecycleOwner, { connection -> viewModel.connection(connection) })
         viewModel.loginDataLive().observe(viewLifecycleOwner, { viewModel.itemClickedRes(it) })
     }
 
-    fun setListUser() {
-        val adapter = UserListAdapter(viewModel, requireContext())
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-
-        viewModel.loading.value = false
-    }
-
     private fun initAdapter() {
-        binding.txtError.setOnClickListener { viewModel.retry() }
         userListAdapter = UserListPagedAdapter(viewModel) { viewModel.retry() }
         binding.recyclerView.adapter = userListAdapter
-        viewModel.userPagedList.observe(viewLifecycleOwner, {userListAdapter.submitList(it)})
+        viewModel.userPagedList.observe(viewLifecycleOwner, { userListAdapter.submitList(it) })
     }
 
     private fun initState() {
-        binding.txtError.setOnClickListener {
-            Log.e(LOG_TAG, "errorClicked")
-            viewModel.retry()
-        }
-
         viewModel.getState().observe(viewLifecycleOwner, { state ->
             viewModel.recyclerViewVisibility(binding, state, userListAdapter)
             //footerBinding.progressBar.visibility = if (viewModel.listIsEmpty() && state == State.LOADING) View.VISIBLE else View.GONE

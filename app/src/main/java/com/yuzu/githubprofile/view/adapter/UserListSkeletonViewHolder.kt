@@ -17,7 +17,6 @@ class UserListSkeletonViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
     fun create(retry: () -> Unit, parent: ViewGroup): UserListSkeletonViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.skeleton_item_user_list, parent, false)
-        binding.txtError.setOnClickListener { retry() }
         return UserListSkeletonViewHolder(view)
     }
 

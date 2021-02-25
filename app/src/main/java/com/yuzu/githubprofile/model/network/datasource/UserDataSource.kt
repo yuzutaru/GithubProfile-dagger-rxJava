@@ -135,11 +135,9 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
                 .subscribe(
                     {   response ->
                         if (!response.isNullOrEmpty()) {
-                            Log.e("UserAfter", "response NOT NULL OR EMPTY")
                             updateState(State.DONE)
                             callback.onResult(response, params.key + 1)
                         } else {
-                            Log.e("UserAfter", "response IS NULL OR EMPTY")
                             updateState(State.ERROR)
                             setRetry(Action {loadAfter(params, callback)})
                         }
