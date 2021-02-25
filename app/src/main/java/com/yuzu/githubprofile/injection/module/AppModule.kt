@@ -3,8 +3,6 @@ package com.yuzu.githubprofile.injection.module
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.room.Room
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.yuzu.githubprofile.model.network.api.ProfileApi
 import com.yuzu.githubprofile.model.network.local.*
 import com.yuzu.githubprofile.model.network.repository.*
@@ -34,13 +32,13 @@ import javax.net.ssl.X509TrustManager
  */
 
 @Module
-class AppModule(private val app: Application) {
+open class AppModule(private val app: Application) {
     @Provides
     fun app(): Application {
         return app
     }
 
-    private fun provideOkHttpClient(): OkHttpClient {
+    open fun provideOkHttpClient(): OkHttpClient {
         try {
             // Create a trust manager that does not validate certificate chains
 
@@ -92,13 +90,7 @@ class AppModule(private val app: Application) {
     //Profile API
     @Provides
     @Singleton
-    fun profileRepository(api: ProfileApi): ProfileRepository {
-        return ProfileRepositoryImpl(api)
-    }
-
-    @Provides
-    @Singleton
-    fun profileApi(): ProfileApi {
+    open fun profileApi(): ProfileApi {
         return Retrofit.Builder()
             .client(provideOkHttpClient())
             .baseUrl(BASE_URL)
@@ -106,6 +98,12 @@ class AppModule(private val app: Application) {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .build()
             .create(ProfileApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    open fun profileRepository(api: ProfileApi): ProfileRepository {
+        return ProfileRepositoryImpl(api)
     }
 
     //User ROOM DATA

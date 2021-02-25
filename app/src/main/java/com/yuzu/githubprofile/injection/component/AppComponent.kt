@@ -21,8 +21,8 @@ interface AppComponent {
     fun inject(app: Application)
 
     //Profile API
-    fun profileRepository(): ProfileRepository
     fun profileApi(): ProfileApi
+    fun profileRepository(): ProfileRepository
 
     //User ROOM DATA
     fun userDBRepository(): UserDBRepository
