@@ -12,5 +12,4 @@ interface NotesDBRepository {
     fun get(login: String): Single<NotesData>
     fun insert(data: NotesData)
     fun insert(list: List<NotesData>)
-    fun deleteAll()
 }

@@ -29,10 +29,4 @@ class NotesDBRepositoryImpl(private val dao: NotesDAO, private val exec: Executo
             dao.insert(list)
         }
     }
-
-    override fun deleteAll() {
-        exec.execute {
-            dao.deleteAll()
-        }
-    }
 }

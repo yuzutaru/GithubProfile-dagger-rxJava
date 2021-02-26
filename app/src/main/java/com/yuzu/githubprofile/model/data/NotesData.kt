@@ -11,6 +11,6 @@ import androidx.room.PrimaryKey
 data class NotesData(
         @PrimaryKey
         var id: Int,
-        var login: String?,
-        var notes: String?
+        var login: String? = null,
+        var notes: String? = null
 )

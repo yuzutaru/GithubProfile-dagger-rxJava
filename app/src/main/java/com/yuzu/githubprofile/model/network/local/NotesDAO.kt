@@ -24,7 +24,4 @@ interface NotesDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(list: List<NotesData>)
-
-    @Query("DELETE FROM NotesData")
-    fun deleteAll()
 }
