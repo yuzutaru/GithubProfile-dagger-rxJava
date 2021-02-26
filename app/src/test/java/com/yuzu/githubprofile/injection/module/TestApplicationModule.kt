@@ -11,8 +11,5 @@ import okhttp3.OkHttpClient
  */
 
 class TestApplicationModule(application: GithubProfileApplication): AppModule(application) {
-    override fun provideOkHttpClient(): OkHttpClient = mockk()
-
     override fun profileApi(): ProfileApi = mockk()
-    override fun profileRepository(api: ProfileApi): ProfileRepository = mockk()
 }

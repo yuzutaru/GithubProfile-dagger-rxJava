@@ -1,6 +1,5 @@
 package com.yuzu.githubprofile.model.network.datasource
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.yuzu.githubprofile.model.data.UserData
@@ -28,7 +27,7 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, UserData>) {
         updateState(State.LOADING)
         compositeDisposable.add(
-            userDBRepository.getAllUsers(0)
+            userDBRepository.getUserBySinceId(0)
                 .subscribe(
                 { response ->
                     if (!response.isNullOrEmpty()) {
@@ -53,7 +52,7 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, UserData>) {
         updateState(State.LOADING)
         compositeDisposable.add(
-            userDBRepository.getAllUsers(params.key)
+            userDBRepository.getUserBySinceId(params.key)
                 .subscribe(
                     { response ->
                         if (!response.isNullOrEmpty()) {

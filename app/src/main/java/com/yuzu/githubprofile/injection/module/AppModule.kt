@@ -38,7 +38,7 @@ open class AppModule(private val app: Application) {
         return app
     }
 
-    open fun provideOkHttpClient(): OkHttpClient {
+    private fun provideOkHttpClient(): OkHttpClient {
         try {
             // Create a trust manager that does not validate certificate chains
 

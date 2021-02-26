@@ -1,12 +1,10 @@
-package com.yuzu.githubprofile.injection
+package com.yuzu.githubprofile.model.network.api
 
-import android.app.Application
 import com.yuzu.githubprofile.GithubProfileApplication
 import com.yuzu.githubprofile.injection.component.DaggerTestApplicationComponent
 import com.yuzu.githubprofile.injection.module.TestApplicationModule
 import com.yuzu.githubprofile.model.data.ProfileData
 import com.yuzu.githubprofile.model.data.UserData
-import com.yuzu.githubprofile.model.network.api.ProfileApi
 import io.mockk.every
 import io.reactivex.Single
 import org.junit.Assert
@@ -31,7 +29,7 @@ class AppRepositoryInjectTest{
     }
 
     @Test
-    fun userListTest() {
+    fun apiUserListTest() {
         Assert.assertNotNull(api)
         every { api.userList(0) } returns Single.just(listOf(UserData(0, 0)))
         val result = api.userList(0)
@@ -39,7 +37,7 @@ class AppRepositoryInjectTest{
     }
 
     @Test
-    fun userDetailTest() {
+    fun apiUserDetailTest() {
         Assert.assertNotNull(api)
         every { api.userDetail("name") } returns Single.just(ProfileData(0))
         val result = api.userDetail("name")

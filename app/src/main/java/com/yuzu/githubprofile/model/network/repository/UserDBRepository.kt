@@ -8,11 +8,8 @@ import io.reactivex.Single
  */
 
 interface UserDBRepository {
-    fun getAllUsers(since: Int): Single<List<UserData>>
-    fun getUser(): Single<UserData>
+    fun getUserBySinceId(since: Int): Single<List<UserData>>
     fun getUsersBySearch(search: String): Single<List<UserData>>
     fun insert(userData: UserData)
     fun insert(userDataList: List<UserData>)
-    fun deleteAllUsers()
-    fun deleteAllAndInsert(list: List<UserData>)
 }

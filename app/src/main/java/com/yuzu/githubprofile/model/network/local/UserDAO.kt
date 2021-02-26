@@ -11,10 +11,7 @@ import io.reactivex.Single
 @Dao
 interface UserDAO {
     @Query("SELECT * from UserData WHERE sinceId = :since")
-    fun getAllUsers(since: Int): Single<List<UserData>>
-
-    @Query("SELECT * FROM UserData LIMIT 1")
-    fun getUser(): Single<UserData>
+    fun getUserBySinceId(since: Int): Single<List<UserData>>
 
     @Query("SELECT * FROM UserData WHERE login like :search||'%'")
     fun getUsersBySearch(search: String): Single<List<UserData>>
@@ -24,13 +21,4 @@ interface UserDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(userDataList: List<UserData>)
-
-    @Query("DELETE FROM UserData")
-    fun deleteAllUsers()
-
-    @Transaction
-    fun deleteAllAndInsert(list: List<UserData>) {
-        deleteAllUsers()
-        insert(list)
-    }
 }
