@@ -15,7 +15,7 @@ import com.yuzu.githubprofile.model.data.ConnectionModel
  */
 
 class ConnectionLiveData(context: Context) : LiveData<ConnectionModel?>() {
-    private val context: Context
+    private val context: Context = context
     override fun onActive() {
         super.onActive()
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
@@ -45,7 +45,4 @@ class ConnectionLiveData(context: Context) : LiveData<ConnectionModel?>() {
         }
     }
 
-    init {
-        this.context = context
-    }
 }
