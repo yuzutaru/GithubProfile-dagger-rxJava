@@ -12,5 +12,4 @@ interface ProfileDBRepository {
     fun getProfile(login: String): Single<ProfileData>
     fun insert(profileData: ProfileData)
     fun insert(profileDataList: List<ProfileData>)
-    fun deleteAllProfiles()
 }

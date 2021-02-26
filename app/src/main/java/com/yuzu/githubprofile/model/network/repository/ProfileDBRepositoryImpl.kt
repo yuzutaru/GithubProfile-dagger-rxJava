@@ -29,10 +29,4 @@ class ProfileDBRepositoryImpl(private val dao: ProfileDAO, private val exec: Exe
             dao.insert(profileDataList)
         }
     }
-
-    override fun deleteAllProfiles() {
-        exec.execute {
-            dao.deleteAllProfiles()
-        }
-    }
 }

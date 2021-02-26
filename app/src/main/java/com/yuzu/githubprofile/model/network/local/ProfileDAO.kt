@@ -24,7 +24,4 @@ interface ProfileDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(profileDataList: List<ProfileData>)
-
-    @Query("DELETE FROM ProfileData")
-    fun deleteAllProfiles()
 }
