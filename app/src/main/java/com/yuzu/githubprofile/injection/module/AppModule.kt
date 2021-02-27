@@ -109,7 +109,7 @@ open class AppModule(private val app: Application) {
     //User ROOM DATA
     @Provides
     @Singleton
-    fun userDBRepository(dao: UserDAO, exec: Executor): UserDBRepository {
+    open fun userDBRepository(dao: UserDAO, exec: Executor): UserDBRepository {
         return UserDBRepositoryImpl(dao, exec)
     }
 
@@ -128,7 +128,7 @@ open class AppModule(private val app: Application) {
     //Profile ROOM DATA
     @Provides
     @Singleton
-    fun profileDBRepository(dao: ProfileDAO, exec: Executor): ProfileDBRepository {
+    open fun profileDBRepository(dao: ProfileDAO, exec: Executor): ProfileDBRepository {
         return ProfileDBRepositoryImpl(dao, exec)
     }
 
@@ -146,7 +146,7 @@ open class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    fun notesDBRepository(dao: NotesDAO, exec: Executor): NotesDBRepository {
+    open fun notesDBRepository(dao: NotesDAO, exec: Executor): NotesDBRepository {
         return NotesDBRepositoryImpl(dao, exec)
     }
 

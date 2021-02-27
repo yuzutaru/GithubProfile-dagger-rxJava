@@ -16,7 +16,8 @@ buildscript {
     ext.circleImageView_viersion = '3.1.0'
     ext.paging_version = '2.1.2'
     ext.mockWebServer_version = '4.9.1'
-    ext.mockKVersion = '1.10.6'
+    ext.mockK_version = '1.10.6'
+    ext.mockito_version = '2.21.0'
 
     repositories {
         google()
