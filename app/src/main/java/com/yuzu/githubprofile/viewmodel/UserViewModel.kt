@@ -99,7 +99,8 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
             doAsync {
                 var bitmap = getBitmapFromURL(data.avatarUrl)
                 bitmap = invertBitmap(bitmap!!)
-                uiThread { Glide.with(fragment.requireActivity()).load(bitmap).diskCacheStrategy(DiskCacheStrategy.DATA).into(binding.avatar) }
+                Log.e(LOG_TAG, "BITMAP INVERTED = $i")
+                uiThread { Glide.with(fragment.requireActivity()).load(bitmap).into(binding.avatar) }
             }.isDone
 
         } else {
@@ -122,21 +123,30 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
     }
 
     private fun invertBitmap(bitmap: Bitmap): Bitmap {
-        val length = bitmap.width * bitmap.height
-        val array = IntArray(length)
-        val secondaryBitmap: Bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-        secondaryBitmap.getPixels(array, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+        /**
+         * Created by Joel Sjögren Stackoverflow on 07/08/2012
+         */
 
-        for (i in 0 until length) {
-            if (array[i] == 0xff000000.toInt()) {
-                Log.e(LOG_TAG, "INVERT")
-                array[i] = 0xffffffff.toInt()
-            }
-        }
+        val RGB_MASK = 0x00FFFFFF
 
-        secondaryBitmap.setPixels(array, 0, secondaryBitmap.width, 0, 0, secondaryBitmap.width, secondaryBitmap.height)
+        // Create mutable Bitmap to invert, argument true makes it mutable
+        val inversion: Bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
 
-        return secondaryBitmap
+        // Get info about Bitmap
+        val width = inversion.width
+        val height = inversion.height
+        val pixels = width * height
+
+        // Get original pixels
+        val pixel = IntArray(pixels)
+        inversion.getPixels(pixel, 0, width, 0, 0, width, height)
+
+        // Modify pixels
+        for (i in 0 until pixels) pixel[i] = pixel[i] xor RGB_MASK
+        inversion.setPixels(pixel, 0, width, 0, 0, width, height)
+
+        // Return inverted Bitmap
+        return inversion
     }
 
     fun setNote(binding: ItemUserListBinding, data: UserData) {
@@ -153,8 +163,8 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
                                         }
 
                                     }, {
-                                        binding.notes.visibility = View.GONE
-                                    }
+                                binding.notes.visibility = View.GONE
+                            }
                             )
             )
         }
