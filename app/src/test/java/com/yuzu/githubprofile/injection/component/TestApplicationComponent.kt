@@ -1,6 +1,6 @@
 package com.yuzu.githubprofile.injection.component
 
-import com.yuzu.githubprofile.model.network.api.AppRepositoryInjectTest
+import com.yuzu.githubprofile.injection.AppRepositoryInjectTest
 import com.yuzu.githubprofile.injection.module.AppModule
 import dagger.Component
 import javax.inject.Singleton

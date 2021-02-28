@@ -103,4 +103,12 @@ class UserDAOTest: UserDBTest() {
         val userDataList = db.userDAO().getUserBySinceId(0).blockingGet().size
         Assert.assertEquals(userDataList, 2)
     }
+
+    @Test
+    fun updateNotesTest() {
+        db.userDAO().insert(UserData(0, 0))
+        db.userDAO().updateNotes(0, "iron man is the best hero")
+        val userDataList = db.userDAO().getUsersBySearch("iron").blockingGet().size
+        Assert.assertEquals(userDataList, 1)
+    }
 }

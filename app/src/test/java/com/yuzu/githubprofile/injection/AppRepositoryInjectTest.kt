@@ -1,4 +1,4 @@
-package com.yuzu.githubprofile.model.network.api
+package com.yuzu.githubprofile.injection
 
 import com.yuzu.githubprofile.GithubProfileApplication
 import com.yuzu.githubprofile.injection.component.DaggerTestApplicationComponent
@@ -6,6 +6,7 @@ import com.yuzu.githubprofile.injection.module.TestApplicationModule
 import com.yuzu.githubprofile.model.data.NotesData
 import com.yuzu.githubprofile.model.data.ProfileData
 import com.yuzu.githubprofile.model.data.UserData
+import com.yuzu.githubprofile.model.network.api.ProfileApi
 import com.yuzu.githubprofile.model.network.repository.NotesDBRepository
 import com.yuzu.githubprofile.model.network.repository.ProfileDBRepository
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
