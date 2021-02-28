@@ -40,7 +40,6 @@ import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-
 /**
  * Created by Yustar Pramudana on 18/02/2021
  */
@@ -60,9 +59,9 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
     val login = MutableLiveData<String>()
     fun loginDataLive(): LiveData<String> = login
 
+    var userPagedList: LiveData<PagedList<UserData>>
     var search = MutableLiveData<String>()
 
-    var userPagedList: LiveData<PagedList<UserData>>
     lateinit var connectionLiveData: ConnectionLiveData
 
     private var itemClicked = false
@@ -84,7 +83,6 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
                 LivePagedListBuilder(userDataSourceFactory, config).build()
             } else {
                 userDBDataSourceFactory = UserDBDataSourceFactory(userDBRepository, compositeDisposable, input)
-                System.out.println("CURRENTINPUT: $input")
                 LivePagedListBuilder(userDBDataSourceFactory!!, config).build()
             }
         }
@@ -148,11 +146,15 @@ class UserViewModel(app: Application): AndroidViewModel(app) {
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    { _ ->
-                                        binding.notes.visibility = View.VISIBLE
+                                    { response ->
+                                        if (response.notes != null) {
+                                            userDBRepository.updateNotes(data.id, response.notes!!)
+                                            binding.notes.visibility = View.VISIBLE
+                                        }
+
                                     }, {
-                                binding.notes.visibility = View.GONE
-                            }
+                                        binding.notes.visibility = View.GONE
+                                    }
                             )
             )
         }

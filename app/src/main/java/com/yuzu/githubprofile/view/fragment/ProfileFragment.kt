@@ -46,8 +46,8 @@ class ProfileFragment: Fragment() {
 
         viewModel.fragment = this
         viewModel.connectionLiveData = ConnectionLiveData(requireContext())
-
         viewModel.connectionLiveData.observe(viewLifecycleOwner, { connection -> viewModel.connection(connection) })
+
         viewModel.getLogin(arguments)
         viewModel.profileDBDataLive().observe(viewLifecycleOwner, { viewModel.profileDBRes(it)})
         viewModel.profileDataLive().observe(viewLifecycleOwner, { viewModel.profileRes(it) })

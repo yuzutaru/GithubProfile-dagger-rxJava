@@ -46,5 +46,6 @@ data class UserData (
     @SerializedName("type")
     var type: String? = null,
     @SerializedName("site_admin")
-    var siteAdmin: Boolean? = null
+    var siteAdmin: Boolean? = null,
+    var notes: String? = null,
 ): Parcelable

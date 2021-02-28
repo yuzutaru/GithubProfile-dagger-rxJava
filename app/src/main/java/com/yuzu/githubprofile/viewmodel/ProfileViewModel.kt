@@ -178,6 +178,7 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
     private fun profileDB(login: String?) {
         loading.value = true
         if (login != null) {
+            Log.e(LOG_TAG, "profileDB = $login")
             compositeDisposable.add(
                 profileDBRepository.getProfile(login)
                     .subscribeOn(Schedulers.newThread())
@@ -264,9 +265,10 @@ class ProfileViewModel(app: Application): AndroidViewModel(app) {
                     .subscribe(
                         { res ->
                             profileDBRepository.insert(res)
+                            loading.value = false
                         },
                         {
-
+                            loading.value = false
                         }
                     )
             )

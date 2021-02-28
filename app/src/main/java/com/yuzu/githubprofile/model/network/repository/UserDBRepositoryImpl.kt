@@ -28,4 +28,10 @@ class UserDBRepositoryImpl(private val dao: UserDAO, private val exec: Executor)
             dao.insert(userDataList)
         }
     }
+
+    override fun updateNotes(id: Int, notes: String) {
+        exec.execute {
+            dao.updateNotes(id, notes)
+        }
+    }
 }

@@ -13,7 +13,7 @@ interface UserDAO {
     @Query("SELECT * from UserData WHERE sinceId = :since")
     fun getUserBySinceId(since: Int): Single<List<UserData>>
 
-    @Query("SELECT * FROM UserData WHERE login like :search||'%'")
+    @Query("SELECT * FROM UserData WHERE UserData.login like :search||'%' OR UserData.notes like :search||'%'")
     fun getUsersBySearch(search: String): Single<List<UserData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -21,4 +21,7 @@ interface UserDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(userDataList: List<UserData>)
+
+    @Query("UPDATE UserData SET notes = :notes WHERE id = :id")
+    fun updateNotes(id: Int, notes: String)
 }

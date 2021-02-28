@@ -12,4 +12,5 @@ interface UserDBRepository {
     fun getUsersBySearch(search: String): Single<List<UserData>>
     fun insert(userData: UserData)
     fun insert(userDataList: List<UserData>)
+    fun updateNotes(id: Int, notes: String)
 }
