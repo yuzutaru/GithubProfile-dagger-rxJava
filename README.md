@@ -12,4 +12,4 @@ Consist of 2 menus :
 2. Profile Menu :
    After click of list, go to this menu, showing the detail data of the github user
    - Load with skeleton view
-   = offline mode
+   - offline mode
