@@ -85,9 +85,6 @@ dependencies {
     //mockk
     testImplementation "io.mockk:mockk:$mockK_version"
 
-    //mockito
-    //testImplementation "org.mockito:mockito-inline:$mockito_version"
-
     //Multidex
     implementation "androidx.multidex:multidex:$multidex_version"
 
