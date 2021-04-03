@@ -10,7 +10,6 @@ import com.yuzu.githubprofile.model.network.repository.ProfileDBRepository
 import com.yuzu.githubprofile.model.network.repository.ProfileRepository
 import com.yuzu.githubprofile.model.network.repository.UserDBRepository
 import io.mockk.mockk
-import okhttp3.OkHttpClient
 import java.util.concurrent.Executor
 
 /**

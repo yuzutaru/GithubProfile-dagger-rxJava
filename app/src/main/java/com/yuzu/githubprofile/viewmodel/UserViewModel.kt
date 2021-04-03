@@ -7,10 +7,7 @@ import android.net.ConnectivityManager
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.bumptech.glide.Glide
@@ -44,7 +41,7 @@ import java.net.URL
  * Created by Yustar Pramudana on 18/02/2021
  */
 
-class UserViewModel(app: Application): AndroidViewModel(app) {
+class UserViewModel: ViewModel() {
     private val LOG_TAG = "User"
     var loading: MutableLiveData<Boolean> = MutableLiveData(false)
     lateinit var fragment: UserFragment

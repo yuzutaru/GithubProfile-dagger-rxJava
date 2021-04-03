@@ -19,10 +19,10 @@ import org.junit.Test
 import javax.inject.Inject
 
 /**
- * Created by Yustar Pramudana on 25/02/2021
+ * Created by Yustar Pramud54ana on 25/02/2021
  */
 
-class AppRepositoryInjectTest{
+class AppRepositoryInjectTest {
     @Inject
     lateinit var api: ProfileApi
 

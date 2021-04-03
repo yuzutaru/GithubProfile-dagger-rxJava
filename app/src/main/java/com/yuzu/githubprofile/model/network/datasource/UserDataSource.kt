@@ -13,6 +13,7 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Action
+import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -32,11 +33,14 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
                 { response ->
                     if (!response.isNullOrEmpty()) {
                         updateState(State.DONE)
-                        callback.onResult(response,
-                            null,
-                            response[response.size - 1].id
-                        )
-                        updateUser(0)
+                        if (response.size > 1) {
+                            callback.onResult(response,
+                                null,
+                                response[response.size - 1].id
+                            )
+                            updateUser(0)
+
+                        }
 
                     } else {
                         userInitial(0, params, callback)
@@ -44,7 +48,7 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
                 },
                 {
                     userInitial(0, params, callback)
-                }
+                },
             )
         )
     }
