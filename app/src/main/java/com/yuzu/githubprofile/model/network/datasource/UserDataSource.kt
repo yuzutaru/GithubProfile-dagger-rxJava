@@ -60,9 +60,11 @@ class UserDataSource(private val profileRepository: ProfileRepository, private v
                 .subscribe(
                     { response ->
                         if (!response.isNullOrEmpty()) {
-                            updateState(State.DONE)
-                            callback.onResult(response, params.key + 1)
-                            updateUser(params.key)
+                            if (response.size > 1) {
+                                updateState(State.DONE)
+                                callback.onResult(response, params.key + 1)
+                                updateUser(params.key)
+                            }
 
                         } else {
                             userAfter(params.key, params, callback)
