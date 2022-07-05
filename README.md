@@ -1,5 +1,14 @@
 # GithubProfile
 
+This is app for me to learn and test out implementation of :
+1. kotlin
+2. mvvm architecture
+3. Dagger2 Depedency Injection
+4. RxJava2
+5. Retrofit2
+6. mockk
+7. JUnit4
+
 This will be an app for viewing list of github profile. 
 Consist of 2 menus :
 1. User Menu :
