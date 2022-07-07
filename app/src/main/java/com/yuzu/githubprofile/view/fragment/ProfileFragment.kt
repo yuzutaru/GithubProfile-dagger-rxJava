@@ -2,7 +2,6 @@ package com.yuzu.githubprofile.view.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.databinding.FragmentProfileBinding
-import com.yuzu.githubprofile.model.data.ConnectionLiveData
+import com.yuzu.githubprofile.repository.data.ConnectionLiveData
 import com.yuzu.githubprofile.view.activity.MainActivity
 import com.yuzu.githubprofile.viewmodel.ProfileViewModel
 

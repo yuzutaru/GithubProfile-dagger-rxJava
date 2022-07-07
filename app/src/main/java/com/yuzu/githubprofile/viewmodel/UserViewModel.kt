@@ -1,6 +1,5 @@
 package com.yuzu.githubprofile.viewmodel
 
-import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
@@ -15,16 +14,16 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yuzu.githubprofile.GithubProfileApplication
 import com.yuzu.githubprofile.databinding.FragmentUserBinding
 import com.yuzu.githubprofile.databinding.ItemUserListBinding
-import com.yuzu.githubprofile.model.data.ConnectionLiveData
-import com.yuzu.githubprofile.model.data.ConnectionModel
-import com.yuzu.githubprofile.model.data.UserData
-import com.yuzu.githubprofile.model.network.State
-import com.yuzu.githubprofile.model.network.datasource.UserDBDataSourceFactory
-import com.yuzu.githubprofile.model.network.datasource.UserDataSource
-import com.yuzu.githubprofile.model.network.datasource.UserDataSourceFactory
-import com.yuzu.githubprofile.model.network.repository.NotesDBRepository
-import com.yuzu.githubprofile.model.network.repository.ProfileRepository
-import com.yuzu.githubprofile.model.network.repository.UserDBRepository
+import com.yuzu.githubprofile.repository.data.ConnectionLiveData
+import com.yuzu.githubprofile.repository.data.ConnectionModel
+import com.yuzu.githubprofile.repository.data.UserData
+import com.yuzu.githubprofile.repository.data.State
+import com.yuzu.githubprofile.repository.remote.datasource.UserDBDataSourceFactory
+import com.yuzu.githubprofile.repository.model.datasource.UserDataSource
+import com.yuzu.githubprofile.repository.model.datasource.UserDataSourceFactory
+import com.yuzu.githubprofile.repository.model.contract.NotesDBRepository
+import com.yuzu.githubprofile.repository.remote.contract.ProfileRepository
+import com.yuzu.githubprofile.repository.model.contract.UserDBRepository
 import com.yuzu.githubprofile.view.adapter.UserListPagedAdapter
 import com.yuzu.githubprofile.view.fragment.UserFragment
 import io.reactivex.android.schedulers.AndroidSchedulers

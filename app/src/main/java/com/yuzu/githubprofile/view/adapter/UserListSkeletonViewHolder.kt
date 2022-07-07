@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.databinding.SkeletonItemUserListBinding
-import com.yuzu.githubprofile.model.network.State
+import com.yuzu.githubprofile.repository.data.State
 
 /**
  * Created by Yustar Pramudana on 23/02/2021

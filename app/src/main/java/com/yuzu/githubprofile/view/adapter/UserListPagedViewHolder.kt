@@ -1,13 +1,12 @@
 package com.yuzu.githubprofile.view.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.databinding.ItemUserListBinding
-import com.yuzu.githubprofile.model.data.UserData
+import com.yuzu.githubprofile.repository.data.UserData
 import com.yuzu.githubprofile.viewmodel.UserViewModel
 
 /**

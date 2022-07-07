@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.yuzu.githubprofile.R
 import com.yuzu.githubprofile.databinding.FragmentUserBinding
-import com.yuzu.githubprofile.model.data.ConnectionLiveData
+import com.yuzu.githubprofile.repository.data.ConnectionLiveData
 import com.yuzu.githubprofile.utils.ARGUMENT_LOGIN
 import com.yuzu.githubprofile.view.activity.MainActivity
 import com.yuzu.githubprofile.view.adapter.UserListPagedAdapter

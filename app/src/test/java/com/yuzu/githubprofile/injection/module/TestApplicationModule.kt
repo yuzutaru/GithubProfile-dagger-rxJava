@@ -1,14 +1,15 @@
 package com.yuzu.githubprofile.injection.module
 
 import com.yuzu.githubprofile.GithubProfileApplication
-import com.yuzu.githubprofile.model.network.api.ProfileApi
-import com.yuzu.githubprofile.model.network.local.NotesDAO
-import com.yuzu.githubprofile.model.network.local.ProfileDAO
-import com.yuzu.githubprofile.model.network.local.UserDAO
-import com.yuzu.githubprofile.model.network.repository.NotesDBRepository
-import com.yuzu.githubprofile.model.network.repository.ProfileDBRepository
-import com.yuzu.githubprofile.model.network.repository.ProfileRepository
-import com.yuzu.githubprofile.model.network.repository.UserDBRepository
+import com.yuzu.githubprofile.injection.AppModule
+import com.yuzu.githubprofile.repository.remote.api.ProfileApi
+import com.yuzu.githubprofile.repository.model.local.NotesDAO
+import com.yuzu.githubprofile.repository.model.local.ProfileDAO
+import com.yuzu.githubprofile.repository.model.local.UserDAO
+import com.yuzu.githubprofile.repository.model.contract.NotesDBRepository
+import com.yuzu.githubprofile.repository.model.contract.ProfileDBRepository
+import com.yuzu.githubprofile.repository.remote.contract.ProfileRepository
+import com.yuzu.githubprofile.repository.model.contract.UserDBRepository
 import io.mockk.mockk
 import java.util.concurrent.Executor
 
