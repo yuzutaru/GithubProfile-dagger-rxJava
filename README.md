@@ -10,7 +10,7 @@ This is app for me to learn and test out implementation of :
 7. mockk
 8. JUnit4
 
-This will be an app for viewing list of github profile. 
+This is an app for viewing list of github profile. 
 Consist of 2 menus :
 1. User Menu :
     - Showing the list of github user.
