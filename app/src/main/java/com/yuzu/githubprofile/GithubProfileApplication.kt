@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
 import com.yuzu.githubprofile.injection.AppComponent
-import com.yuzu.githubprofile.injection.component.DaggerAppComponent
 import com.yuzu.githubprofile.injection.AppModule
+import com.yuzu.githubprofile.injection.DaggerAppComponent
 
 /**
  * Created by Yustar Pramudana on 18/02/2021

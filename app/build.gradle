@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.yuzu.githubprofile"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
@@ -50,6 +50,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.yuzu.githubprofile'
 }
 
 android.applicationVariants.all {
@@ -60,53 +61,62 @@ android.applicationVariants.all {
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     //Unit Test
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
     //arch core for InstantTaskExecutorRule
-    testImplementation 'androidx.test:core-ktx:1.3.0'
+    testImplementation 'androidx.test:core-ktx:1.5.0'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
 
-    //  to build TestComponent in test/ folder
-    kaptTest "com.google.dagger:dagger-compiler:$dagger2_version"
-
     //MockWebServer
+    def mockWebServer_version = '5.0.0-alpha.10'
     androidTestImplementation("com.squareup.okhttp3:mockwebserver:$mockWebServer_version") {
         exclude group: "com.squareup.okhttp3"
     }
 
     //mockk
+    def mockK_version = '1.13.3'
     testImplementation "io.mockk:mockk:$mockK_version"
 
     //Multidex
+    def multidex_version = "2.0.1"
     implementation "androidx.multidex:multidex:$multidex_version"
 
     // Dagger
+    def dagger2_version = '2.35.1'
     implementation "com.google.dagger:dagger:$dagger2_version"
     kapt "com.google.dagger:dagger-compiler:$dagger2_version"
     implementation "com.google.dagger:dagger-android:$dagger2_version"
     implementation "com.google.dagger:dagger-android-support:$dagger2_version"
 
+    //  to build TestComponent in test/ folder
+    kaptTest "com.google.dagger:dagger-compiler:$dagger2_version"
+
     //Okhttp
+    def okhttp3_version = '5.0.0-alpha.3'
     implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
 
     // Retrofit
+    def retrofit_version = '2.9.0'
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     //Rx
+    def rxjava_version = '2.2.21'
+    def rxandroid_version = '2.1.1'
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
 
     // Room
+    def room_version = '2.4.3'
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
@@ -114,23 +124,33 @@ dependencies {
     //testImplementation "androidx.room:room-testing:$room_version"
 
     //glide
+    def glide_version = '4.12.0'
     implementation ("com.github.bumptech.glide:glide:$glide_version@aar") {
         transitive(true)
     }
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     //Databinding
+    def databinding_version = '3.5.0'
     kapt "com.android.databinding:compiler:$databinding_version"
 
+    //lifecycle
+    def lifecycle_version = "2.5.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
     //Asynctask
+    def anko_version = '0.10.0'
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
 
     //Skeleton loading EudyContreras
+    def skeleton_version = '1.3'
     implementation "com.github.EudyContreras:Skeleton-Bones:$skeleton_version"
 
     // Circle Image View hdodenhof
+    def circleImageView_viersion = '3.1.0'
     implementation "de.hdodenhof:circleimageview:$circleImageView_viersion"
 
     //Paging Library
+    def paging_version = '3.1.1'
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 }
