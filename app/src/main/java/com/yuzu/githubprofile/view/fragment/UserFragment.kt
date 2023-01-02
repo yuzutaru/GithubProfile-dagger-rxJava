@@ -47,8 +47,8 @@ class UserFragment: Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
         initState()
@@ -58,15 +58,15 @@ class UserFragment: Fragment() {
         viewModel.fragment = this
         viewModel.connectionLiveData = ConnectionLiveData(requireContext())
 
-        viewModel.connectionLiveData.observe(viewLifecycleOwner, { connection -> viewModel.connection(connection) })
-        viewModel.loginDataLive().observe(viewLifecycleOwner, { viewModel.itemClickedRes(it) })
+        viewModel.connectionLiveData.observe(viewLifecycleOwner) { connection -> viewModel.connection(connection) }
+        viewModel.loginDataLive().observe(viewLifecycleOwner) { viewModel.itemClickedRes(it) }
     }
 
     private fun initAdapter() {
         userListAdapter = UserListPagedAdapter(viewModel) { viewModel.retry() }
         binding.recyclerView.adapter = userListAdapter
         viewModel.search.value = ""
-        viewModel.userPagedList.observe(viewLifecycleOwner, {
+        viewModel.userPagedList.observe(viewLifecycleOwner) {
             try {
                 Log.e("Paging ", "PageAll" + it.size)
                 try {
@@ -74,19 +74,21 @@ class UserFragment: Fragment() {
                     binding.recyclerView.setItemAnimator(null)
                     (Objects.requireNonNull(binding.recyclerView.getItemAnimator()) as SimpleItemAnimator).supportsChangeAnimations = false
                 } catch (e: Exception) {
+                    e.message?.let { it1 -> Log.e("devLog", it1) }
                 }
                 userListAdapter.submitList(it)
             } catch (e: Exception) {
+                e.message?.let { it1 -> Log.e("devLog", it1) }
             }
-        })
+        }
     }
 
     private fun initState() {
-        viewModel.getState().observe(viewLifecycleOwner, { state ->
+        viewModel.getState().observe(viewLifecycleOwner) { state ->
             viewModel.recyclerViewVisibility(binding, state, userListAdapter)
             //footerBinding.progressBar.visibility = if (viewModel.listIsEmpty() && state == State.LOADING) View.VISIBLE else View.GONE
             //footerBinding.txtError.visibility = if (viewModel.listIsEmpty() && state == State.ERROR) View.VISIBLE else View.GONE
-        })
+        }
     }
 
     private fun searchTextChangeListener() {

@@ -14,7 +14,7 @@ import androidx.lifecycle.LiveData
  * Created by Kebab Krabby stackoverflow.com on 09/10/2018
  */
 
-class ConnectionLiveData(val context: Context) : LiveData<Boolean>() {
+class ConnectionLiveData(val context: Context) : LiveData<ConnectionModel?>() {
 
     private var connectivityManager: ConnectivityManager = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -62,11 +62,11 @@ class ConnectionLiveData(val context: Context) : LiveData<Boolean>() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             connectivityManagerCallback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
-                    postValue(true)
+                    postValue(ConnectionModel(0, true))
                 }
 
                 override fun onLost(network: Network) {
-                    postValue(false)
+                    postValue(ConnectionModel(0, false))
                 }
             }
             return connectivityManagerCallback
@@ -81,12 +81,12 @@ class ConnectionLiveData(val context: Context) : LiveData<Boolean>() {
                 override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
                     networkCapabilities?.let { capabilities ->
                         if (capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) {
-                            postValue(true)
+                            postValue(ConnectionModel(NetworkCapabilities.NET_CAPABILITY_INTERNET,true))
                         }
                     }
                 }
                 override fun onLost(network: Network) {
-                    postValue(false)
+                    postValue(ConnectionModel(0, false))
                 }
             }
             return connectivityManagerCallback
@@ -102,7 +102,26 @@ class ConnectionLiveData(val context: Context) : LiveData<Boolean>() {
     }
 
     private fun updateConnection() {
-        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
-        postValue(activeNetwork?.isConnected == true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val nw      = connectivityManager.activeNetwork
+            nw?.let { network ->
+                val actNw = connectivityManager.getNetworkCapabilities(nw)
+                actNw?.let { networkCapabilities ->
+                    when {
+                        actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> postValue(ConnectionModel(NetworkCapabilities.TRANSPORT_WIFI, true))
+                        actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> postValue(ConnectionModel(NetworkCapabilities.TRANSPORT_CELLULAR, true))
+                        //for other device how are able to connect with Ethernet
+                        actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> postValue(ConnectionModel(NetworkCapabilities.TRANSPORT_ETHERNET, true))
+                        //for check internet over Bluetooth
+                        actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> postValue(ConnectionModel(NetworkCapabilities.TRANSPORT_BLUETOOTH, true))
+
+                        else -> postValue(ConnectionModel(0, false))
+                    }
+                }
+            }
+
+        } else {
+            postValue(ConnectionModel(0, connectivityManager.activeNetworkInfo?.isConnected ?: false))
+        }
     }
 }

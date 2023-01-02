@@ -50,7 +50,6 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_search_left"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
                     android:contentDescription="@string/search_icon" />
             </RelativeLayout>
